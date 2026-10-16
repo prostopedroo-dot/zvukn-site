@@ -5,6 +5,17 @@
   var doc = document;
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* --- Письма Netlify (вход, приглашение, сброс пароля) ведут на главную.
+         Перенаправляем их на панель управления, где пароль и создаётся. --- */
+  (function () {
+    var hash = window.location.hash || "";
+    var isAdmin = /\/admin\/?/.test(window.location.pathname);
+    if (isAdmin) return;
+    if (/(recovery_token|confirmation_token|invite_token|email_change_token)/.test(hash)) {
+      window.location.replace("/admin/" + hash);
+    }
+  })();
+
   /* --- Шапка: состояние при скролле --- */
   var header = doc.querySelector(".hdr, .site-header");
   function onScroll() {
