@@ -35,7 +35,7 @@ collections:
             fields:
               - { name: image, label: Фотография, widget: image }
               - { name: imageAlt, label: Описание фотографии (для незрячих и поисковиков), widget: string }
-              - { name: labels, label: Подписи сверху, widget: list, field: { widget: string } }
+              - { name: labels, label: Подписи сверху, widget: list, field: { name: value, widget: string } }
               - { name: titleLine1, label: Строка заголовка 1, widget: string }
               - { name: titleLine2, label: Строка заголовка 2, widget: string }
               - { name: titleStroke, label: Слово контуром (заглавными), widget: string }
@@ -63,7 +63,7 @@ collections:
                   - { name: value, label: Крупно, widget: string }
                   - { name: label, label: Пояснение, widget: string }
 
-          - { name: ticker, label: Бегущая строка (слова), widget: list, field: { widget: string } }
+          - { name: ticker, label: Бегущая строка (слова), widget: list, field: { name: value, widget: string } }
 
           - name: about
             label: "01 — О педагоге"
@@ -76,7 +76,7 @@ collections:
               - { name: title, label: Заголовок, widget: string, hint: "Можно переносить строки тегом <br> и выделять золотым: <span class=\"it gold\">слова</span>" }
               - { name: text1, label: Первый абзац, widget: text }
               - { name: text2, label: Второй абзац, widget: text }
-              - { name: list, label: Список с номерами, widget: list, field: { widget: string } }
+              - { name: list, label: Список с номерами, widget: list, field: { name: value, widget: string } }
               - { name: linkText, label: Ссылка — текст, widget: string }
               - { name: linkHref, label: Ссылка — адрес, widget: string }
 
@@ -102,7 +102,7 @@ collections:
                   - { name: badge, label: Надпись после номера, widget: string, required: false, hint: "Например: набор открыт" }
                   - { name: title, label: Название, widget: string }
                   - { name: text, label: Описание, widget: text }
-                  - { name: bullets, label: Пункты списка, widget: list, field: { widget: string } }
+                  - { name: bullets, label: Пункты списка, widget: list, field: { name: value, widget: string } }
                   - { name: price, label: Цена, widget: string, hint: "Например 11 900 ₽ или по запросу" }
                   - { name: priceNote, label: Подпись под ценой, widget: string, hint: "Например за урок" }
                   - { name: priceSmall, label: Цена мелким шрифтом, widget: boolean, default: false }
@@ -252,7 +252,7 @@ collections:
               - { name: image, label: Фотография, widget: image }
               - { name: imageAlt, label: Описание фотографии, widget: string }
               - { name: lead, label: Вводный абзац, widget: text }
-              - { name: list, label: Список, widget: list, field: { widget: string } }
+              - { name: list, label: Список, widget: list, field: { name: value, widget: string } }
               - name: buttons
                 label: Кнопки
                 widget: list
@@ -319,7 +319,7 @@ collections:
                   - { name: highlight, label: Выделить карточку, widget: boolean, default: false }
                   - { name: title, label: Название, widget: string }
                   - { name: text, label: Описание, widget: text }
-                  - { name: bullets, label: Пункты списка, widget: list, field: { widget: string } }
+                  - { name: bullets, label: Пункты списка, widget: list, field: { name: value, widget: string } }
                   - { name: price, label: Цена, widget: string }
                   - { name: priceNote, label: Подпись под ценой, widget: string }
                   - { name: priceSmall, label: Цена мелким шрифтом, widget: boolean, default: false }
@@ -517,7 +517,7 @@ collections:
             fields:
               - { name: title, label: Заголовок, widget: string }
               - { name: lead, label: Вводный абзац, widget: text }
-              - { name: tags, label: Облако тегов, widget: list, field: { widget: string } }
+              - { name: tags, label: Облако тегов, widget: list, field: { name: value, widget: string } }
           - name: list
             label: Заголовок списка статей
             widget: object
