@@ -1,0 +1,94 @@
+{#
+Каркас внутренних страниц (о педагоге, занятия, блог, контакты, политика).
+Ожидает: title, description, active (раздел меню), bodyClass (необязательно).
+#}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if metaTitle %}{{ metaTitle }}{% elif tags and 'posts' in tags %}{{ title }} — блог школы «{{ site.name }}»{% else %}{{ title }}{% endif %}</title>
+<meta name="description" content="{{ description | safe }}">
+<link rel="icon" href="{{ site.favicon | url }}" type="image/png">
+<link rel="stylesheet" href="assets/css/site.css?v=17">
+<noscript><style>.reveal{opacity:1!important;transform:none!important}.hero__wave{display:none}</style></noscript>
+</head>
+<body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
+<a class="skip-link" href="#main">Перейти к содержанию</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="{{ '/index' | url }}" aria-label="{{ site.ariaName }}">
+      <img src="{{ site.logoMark | url }}" alt="{{ site.name }}" width="130" height="48">
+      <span class="brand__text">Вокальная школа<br>{{ site.teacherGenitive }}</span>
+    </a>
+    <nav class="nav" aria-label="Основная навигация">
+      {% for item in site.menu %}{% if item.href != '/index' %}
+      <a href="{{ item.href | url }}"{% if item.href == active %} class="is-active"{% endif %}>{{ item.title }}</a>
+      {% endif %}{% endfor %}
+    </nav>
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-nav" role="dialog" aria-label="Меню">
+  {% for item in site.menu %}
+  <a href="{{ item.href | url }}">{{ item.title }}</a>
+  {% endfor %}
+  <a class="btn" href="{{ '/kontakty#zayavka' | url }}"><span>Записаться</span></a>
+  <div class="mobile-nav__foot">{{ site.menuFoot }}<br>Telegram: {{ site.telegram }}</div>
+</div>
+
+<main id="main">
+{{ content | safe }}
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <img class="footer-logo" src="{{ site.logoFull | url }}" alt="{{ site.ariaName }}" width="800" height="416">
+        <p class="footer-tag">{{ site.tagline }}</p>
+      </div>
+
+      <div class="footer-col">
+        <h3>Разделы</h3>
+        <ul>
+          {% for item in site.menu %}
+          <li><a href="{{ item.href | url }}">{{ item.footerTitle or item.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Соцсети</h3>
+        <ul>
+          {% for social in site.socials %}
+          <li><a href="{{ social.url }}" target="_blank" rel="noopener">{{ social.label }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Контакты</h3>
+        <ul>
+          {% if site.telegram %}<li><a href="{{ site.telegramUrl }}" target="_blank" rel="noopener">{{ site.telegram }}</a></li>{% endif %}
+          {% if site.phone %}<li><a href="tel:{{ site.phone }}">{{ site.phone }}</a></li>{% endif %}
+          {% if site.email %}<li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>{% endif %}
+          <li><span class="muted">{{ site.city }},<br>{{ site.address }}</span></li>
+          <li><span class="muted">{{ site.place | safe }}<br>{{ site.venue }}</span></li>
+          <li><span class="muted">{{ site.metro }}</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span data-year>2026</span> {{ site.fullName }}</span>
+      <span><a href="{{ '/politika' | url }}">Политика конфиденциальности</a> · {{ site.footerNote }}</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

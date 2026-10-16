@@ -1,0 +1,10 @@
+---
+layout: layouts/layout-main.njk
+permalink: /index.html
+active: /index
+selfHref: /index
+---
+{%- set v = site.mainVariant | string %}
+{%- if v == '2' %}{% include "home-v2.njk" %}
+{%- elif v == '3' %}{% include "home-v3.njk" %}
+{%- else %}{% include "home-v1.njk" %}{% endif -%}

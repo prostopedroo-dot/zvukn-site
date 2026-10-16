@@ -1,0 +1,52 @@
+---
+layout: layouts/layout-inner.njk
+permalink: /variants.html
+title: Три варианта главной — Звук N
+description: Сравнение трёх вариантов главной страницы вокальной школы «Звук N» — тёмный «RoofTop», редакционный и постерный.
+active: /index
+---
+<section class="page-hero">
+  <div class="container">
+    <p class="eyebrow">Сравнение концепций</p>
+    <h1 class="display-xl">Три варианта <span class="italic grad-text">главной</span></h1>
+    <p class="lead">Один и тот же контент, палитра школы и её логотип — но три разные подачи.
+      Откройте каждый вариант и посмотрите, какой больше по душе.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid-3">
+      <article class="card">
+        <span class="card__num">01</span>
+        <h3>Вариант 1 — RoofTop</h3>
+        <p>Тёмный кинематографичный: фотография студии на крыше во всю ширину,
+           крупная антиква по левому краю, линейки вместо коробок, медные акценты.</p>
+        <a class="btn btn--sm mt-m" href="{{ '/variant-1' | url }}"><span>Открыть</span></a>
+      </article>
+
+      <article class="card">
+        <span class="card__num">02</span>
+        <h3>Вариант 2 — Редакция</h3>
+        <p>Тёмный и строгий: глубокий коричневый фон с медными заревами, портрет педагога
+           на первом экране, буквица, воздух и светлые кнопки. Ощущение дорогого журнала.</p>
+        <a class="btn btn--sm mt-m" href="{{ '/variant-2' | url }}"><span>Открыть</span></a>
+      </article>
+
+      <article class="card">
+        <span class="card__num">03</span>
+        <h3>Вариант 3 — Афиша</h3>
+        <p>Постерный и дерзкий: крупные буквы на цветных блоках, чёткие рамки,
+           асимметрия и билет с ценой курса. Максимально далёк от двух остальных.</p>
+        <a class="btn btn--sm mt-m" href="{{ '/variant-3' | url }}"><span>Открыть</span></a>
+      </article>
+    </div>
+
+    <p class="mt-xl faint" style="max-width:70ch">
+      Чтобы выбранный вариант стал главной страницей, откройте файл
+      <b>src/content/site.yaml</b> и укажите в поле <b>mainVariant</b> номер варианта
+      (1, 2 или 3). После пересборки сайта страница <b>/index.html</b> соберётся
+      из выбранного варианта.
+    </p>
+  </div>
+</section>

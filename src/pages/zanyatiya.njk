@@ -1,0 +1,146 @@
+---
+layout: layouts/layout-inner.njk
+permalink: /zanyatiya.html
+active: /zanyatiya
+bodyClass: cat--zanyatiya
+eleventyComputed:
+  title: "{{ zanyatiya.title }}"
+  description: "{{ zanyatiya.description }}"
+---
+{%- set Z = zanyatiya %}
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Хлебные крошки">
+        <a href="{{ '/index' | url }}">Главная</a><span>/</span><span>{{ Z.hero.breadcrumb }}</span>
+      </nav>
+      <h1 class="display-xl">{{ Z.hero.title | safe }}</h1>
+      <p class="lead">{{ Z.hero.lead }}</p>
+      <div class="btn-row mt-m">
+        {% for button in Z.hero.buttons %}
+        <a class="btn{% if button.style %} {{ button.style }}{% endif %}" href="{{ button.href | url }}"{% if button.external %} target="_blank" rel="noopener"{% endif %}><span>{{ button.text }}</span></a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ФОРМАТЫ ========== -->
+  <section class="section" data-abs="a">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">{{ Z.formats.eyebrow }}</span>
+        <h2 class="display-l">{{ Z.formats.title | safe }}</h2>
+      </div>
+
+      <div class="grid grid-3 mt-xl">
+        {% for card in Z.formats.cards %}
+        <article class="card{% if card.highlight %} card--price{% endif %} reveal"{% if not loop.first %} data-delay="{{ loop.index - 1 }}"{% endif %}>
+          <span class="tag{% if card.tagAccent %} tag--accent{% endif %}">{{ card.tag }}</span>
+          <h3>{{ card.title }}</h3>
+          <p>{{ card.text }}</p>
+          <ul>
+            {% for bullet in card.bullets %}
+            <li>{{ bullet }}</li>
+            {% endfor %}
+          </ul>
+          <div class="price"{% if card.priceSmall %} style="font-size:26px"{% endif %}>{{ card.price }}{% if card.priceNote %} <small>{{ card.priceNote }}</small>{% endif %}</div>
+          <div class="btn-row mt-m"><a class="link-arrow" href="{{ card.linkHref | url }}">{{ card.linkText }} <svg viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M0 5h14M10 1l4 4-4 4" stroke="currentColor" stroke-width="1.3"/></svg></a></div>
+        </article>
+        {% endfor %}
+      </div>
+
+      <p class="form-note mt-l reveal">{{ Z.formats.note }}</p>
+    </div>
+  </section>
+
+  <!-- ========== КАК ПРОХОДИТ ========== -->
+  <section class="section bg-deep section--line" data-abs="b">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">{{ Z.course.eyebrow }}</span>
+        <h2 class="display-l">{{ Z.course.title | safe }}</h2>
+        <p class="lead">{{ Z.course.lead }}</p>
+      </div>
+
+      <div class="grid grid-3 mt-xl">
+        {% for card in Z.course.cards %}
+        <article class="card reveal"{% if not loop.first %} data-delay="{{ loop.index - 1 }}"{% endif %}><span class="card__num">{{ card.label }}</span><h3>{{ card.title }}</h3><p>{{ card.text }}</p></article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ПРОГРАММА ========== -->
+  <section class="section" id="program" data-abs="c">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">{{ Z.program.eyebrow }}</span>
+        <h2 class="display-l">{{ Z.program.title | safe }}</h2>
+        <p class="lead">{{ Z.program.lead }}</p>
+      </div>
+
+      <div class="steps">
+        {% for step in Z.program.steps %}
+        <div class="step reveal">
+          <div class="step__n">{{ loop.index | num }}</div>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.text }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== КАК НАЧАТЬ ========== -->
+  <section class="section bg-panel section--line" data-abs="d">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">{{ Z.start.eyebrow }}</span>
+        <h2 class="display-l">{{ Z.start.title | safe }}</h2>
+      </div>
+
+      <div class="steps">
+        {% for step in Z.start.steps %}
+        <div class="step reveal"><div class="step__n">{{ loop.index | num }}</div><h3>{{ step.title }}</h3><p>{{ step.text | safe }}</p></div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAQ ========== -->
+  <section class="section" id="faq" data-abs="e">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">{{ Z.faq.eyebrow }}</span>
+        <h2 class="display-l">{{ Z.faq.title | safe }}</h2>
+      </div>
+
+      <div class="faq reveal">
+        {% for item in Z.faq.items %}
+        <div class="faq__item">
+          <button class="faq__q" type="button" aria-expanded="false">{{ item.q }}<span class="faq__icon"></span></button>
+          <div class="faq__a"><div>{{ item.a | safe }}</div></div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section class="section section--tight">
+    <div class="container">
+      <div class="cta-band reveal">
+        <img class="cta-band__logo" src="{{ Z.cta.image | url }}" alt="" aria-hidden="true" width="800" height="416">
+        <div style="position:relative;z-index:2;max-width:640px">
+          <span class="eyebrow">{{ Z.cta.eyebrow }}</span>
+          <h2 class="display-l mt-s">{{ Z.cta.title | safe }}</h2>
+          <p class="lead mt-m">{{ Z.cta.lead }}</p>
+          <div class="btn-row">
+            {% for button in Z.cta.buttons %}
+            <a class="btn{% if button.style %} {{ button.style }}{% endif %}" href="{{ button.href | url }}"><span>{{ button.text }}</span></a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

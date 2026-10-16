@@ -1,0 +1,114 @@
+# СТРАНИЦА «КОНТАКТЫ» — содержимое.
+# Владелец меняет только этот файл: телефоны, соцсети, тексты формы. Вёрстка — в src/pages/kontakty.njk.
+# Разметка в текстах: <br> — перенос строки. Ссылки внутри сайта пишутся как /politika.
+# ВАЖНО: у формы не менять id и name полей — по ним собирается заявка в Telegram.
+
+# ---------- Первый экран ----------
+hero:
+  title: 'Давайте<br><span class="italic grad-text">познакомимся</span>'
+  lead: |-
+    Напишите в Telegram или оставьте заявку — ответим на вопросы,
+    подберём формат и время.
+
+# ---------- Блок «Как связаться» ----------
+contactsTitle:
+  eyebrow: Как связаться
+  title: 'Сообщество<br>и <span class="italic">запись</span>'
+
+# Способы связи. icon: telegram | instagram | map | schedule
+contacts:
+  - icon: telegram
+    title: Запись на занятия
+    links:
+      - text: '@natlyone'
+        href: https://t.me/natlyone
+  - icon: telegram
+    title: Канал школы
+    links:
+      - text: '@zvuk_n_vocalspb'
+        href: https://t.me/zvuk_n_vocalspb
+  - icon: instagram
+    title: Instagram
+    links:
+      - text: '@zvuk_n_vocalspb'
+        href: https://www.instagram.com/zvuk_n_vocalspb/
+      - text: '@natly.one'
+        href: https://www.instagram.com/natly.one/
+  - icon: map
+    title: Адрес
+    text: |-
+      Санкт-Петербург, ул. Социалистическая, 21<br>
+      апарт-отель Ye's на Марата, 10 этаж — Zarenkov Gallery
+  - icon: schedule
+    title: Расписание
+    text: 'Занятия по записи. Групповой курс — среда и суббота, 18:00–19:30'
+
+# ---------- Карта ----------
+map:
+  src: 'https://yandex.ru/map-widget/v1/?oid=55037600220&amp;z=17'
+  title: 'Яндекс Карты — вокальная школа «Звук N», Санкт-Петербург, ул. Социалистическая, 21'
+  pinTitle: Социалистическая, 21
+  pinText: |-
+    Метро «Звенигородская» — 940 м<br>
+    Метро «Социалистическая» — 280 м
+  linkText: Открыть в Яндекс Картах
+  linkHref: https://yandex.ru/maps/org/vokalnaya_shkola_zvukn_natalyi_okhochinskoy/55037600220/
+
+# ---------- Форма заявки ----------
+# Отправка: скрипт собирает поля формы (их name) и открывает Telegram с готовым сообщением.
+form:
+  eyebrow: Заявка на занятие
+  title: 'Расскажите<br>о себе'
+  lead: |-
+    Заполните короткую форму — мы откроем Telegram с уже вписанным сообщением,
+    его останется только отправить.
+  fields:
+    - id: name
+      name: Имя
+      label: Имя
+      type: text
+      autocomplete: name
+      required: true
+    - id: phone
+      name: Телефон
+      label: Телефон
+      type: tel
+      autocomplete: tel
+    - id: tg
+      name: Telegram
+      label: Ник в Telegram
+      type: text
+      autocomplete: off
+    - id: format
+      name: Формат
+      label: 'Формат: индивидуально / группа / дети'
+      type: text
+    - id: msg
+      name: Вопрос
+      label: Что хотите от голоса
+      type: textarea
+  button: Отправить заявку
+  policyBefore: 'Нажимая кнопку, вы соглашаетесь с'
+  policyText: 'политикой конфиденциальности'
+  policyHref: /politika
+  policyAfter: |-
+    и использованием данных
+    исключительно для связи по заявке.
+
+# ---------- Врезка под формой ----------
+quote:
+  text: |-
+    Сомневаетесь, подойдёт ли вам занятие?
+    Напишите — разберём вашу ситуацию без обязательств.
+
+# ---------- Форматы занятий (три карточки) ----------
+formats:
+  - number: '01'
+    title: Индивидуально
+    text: 'Личная программа под ваш голос и задачу: запись, выступление или работа над звучанием.'
+  - number: '02'
+    title: 'Группа «Твой голос»'
+    text: '6 занятий за три недели, среда и суббота, съёмка прогресса и финальное выступление.'
+  - number: '03'
+    title: Дети от 4 лет
+    text: 'Слух, ритм и радость от звука в игровой форме — отдельный формат для детей.'

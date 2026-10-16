@@ -1,0 +1,635 @@
+# Панель управления сайтом «Звук N».
+# Здесь описано, какие поля владелец видит в панели и в какой файл они сохраняются.
+# Обычно этот файл менять не нужно.
+#
+# Подробности: docs/КАК-ПРАВИТЬ-ПРОГРАММИСТУ.md
+
+backend:
+  name: git-gateway
+  branch: main
+
+# Язык панели
+locale: ru
+
+# Куда складывать загруженные фотографии и как на них ссылаться
+media_folder: "static/assets/img"
+public_folder: "/assets/img"
+
+collections:
+  # =========================================================
+  # ГЛАВНАЯ СТРАНИЦА
+  # =========================================================
+  - name: main
+    label: Главная страница
+    files:
+      - name: home
+        label: Содержимое главной
+        file: src/content/home.yaml
+        fields:
+          - { name: title, label: Название вкладки браузера, widget: string }
+          - { name: description, label: Описание для поисковиков, widget: text }
+
+          - name: hero
+            label: Первый экран
+            widget: object
+            fields:
+              - { name: image, label: Фотография, widget: image }
+              - { name: imageAlt, label: Описание фотографии (для незрячих и поисковиков), widget: string }
+              - { name: labels, label: Подписи сверху, widget: list, field: { widget: string } }
+              - { name: titleLine1, label: Строка заголовка 1, widget: string }
+              - { name: titleLine2, label: Строка заголовка 2, widget: string }
+              - { name: titleStroke, label: Слово контуром (заглавными), widget: string }
+              - { name: titleStrokeLabel, label: То же слово обычными буквами (для незрячих), widget: string }
+              - { name: lead, label: Вводный абзац, widget: text }
+              - name: buttons
+                label: Кнопки
+                widget: list
+                fields:
+                  - { name: text, label: Текст кнопки, widget: string }
+                  - { name: href, label: Куда ведёт, widget: string, hint: "Например /kontakty#zayavka или /zanyatiya" }
+                  - name: style
+                    label: Вид кнопки
+                    widget: select
+                    required: false
+                    options:
+                      - { label: Основная (залитая), value: "" }
+                      - { label: Прозрачная, value: btn--ghost }
+                      - { label: Светлая, value: btn--light }
+                      - { label: Светлая прозрачная, value: btn--outline-light }
+              - name: facts
+                label: Факты под кнопками
+                widget: list
+                fields:
+                  - { name: value, label: Крупно, widget: string }
+                  - { name: label, label: Пояснение, widget: string }
+
+          - { name: ticker, label: Бегущая строка (слова), widget: list, field: { widget: string } }
+
+          - name: about
+            label: "01 — О педагоге"
+            widget: object
+            fields:
+              - { name: image, label: Фотография, widget: image }
+              - { name: imageAlt, label: Описание фотографии, widget: string }
+              - { name: imageTag, label: Подпись на фотографии, widget: string }
+              - { name: label, label: Номер раздела, widget: string }
+              - { name: title, label: Заголовок, widget: string, hint: "Можно переносить строки тегом <br> и выделять золотым: <span class=\"it gold\">слова</span>" }
+              - { name: text1, label: Первый абзац, widget: text }
+              - { name: text2, label: Второй абзац, widget: text }
+              - { name: list, label: Список с номерами, widget: list, field: { widget: string } }
+              - { name: linkText, label: Ссылка — текст, widget: string }
+              - { name: linkHref, label: Ссылка — адрес, widget: string }
+
+          - name: quote
+            label: Цитата
+            widget: object
+            fields:
+              - { name: text, label: Текст цитаты, widget: text }
+              - { name: author, label: Подпись, widget: string }
+
+          - name: formats
+            label: "02 — Форматы и цены"
+            widget: object
+            fields:
+              - { name: label, label: Номер раздела, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: aside, label: Пояснение справа, widget: text }
+              - name: cards
+                label: Карточки форматов
+                widget: list
+                fields:
+                  - { name: number, label: Номер, widget: string }
+                  - { name: badge, label: Надпись после номера, widget: string, required: false, hint: "Например: набор открыт" }
+                  - { name: title, label: Название, widget: string }
+                  - { name: text, label: Описание, widget: text }
+                  - { name: bullets, label: Пункты списка, widget: list, field: { widget: string } }
+                  - { name: price, label: Цена, widget: string, hint: "Например 11 900 ₽ или по запросу" }
+                  - { name: priceNote, label: Подпись под ценой, widget: string, hint: "Например за урок" }
+                  - { name: priceSmall, label: Цена мелким шрифтом, widget: boolean, default: false }
+                  - { name: linkText, label: Ссылка — текст, widget: string }
+                  - { name: linkHref, label: Ссылка — адрес, widget: string }
+              - { name: note, label: Примечание под карточками, widget: text }
+
+          - name: program
+            label: "03 — Программа курса"
+            widget: object
+            fields:
+              - { name: label, label: Номер раздела, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: aside, label: Пояснение справа, widget: text }
+              - name: steps
+                label: Занятия курса
+                widget: list
+                fields:
+                  - { name: number, label: Номер, widget: string }
+                  - { name: title, label: Название занятия, widget: string }
+                  - { name: text, label: Что происходит, widget: text }
+
+          - name: gallery
+            label: "04 — Фотографии"
+            widget: object
+            fields:
+              - { name: label, label: Номер раздела, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: aside, label: Пояснение справа, widget: text }
+              - name: photos
+                label: Фотографии
+                widget: list
+                fields:
+                  - { name: src, label: Фотография, widget: image }
+                  - { name: alt, label: Описание фотографии, widget: string }
+                  - { name: caption, label: Подпись под фотографией, widget: string, required: false }
+
+          - name: reviews
+            label: "05 — Отзывы"
+            widget: object
+            fields:
+              - { name: label, label: Номер раздела, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: aside, label: Пояснение справа, widget: text }
+              - name: items
+                label: Отзывы
+                widget: list
+                fields:
+                  - { name: text, label: Текст отзыва, widget: text }
+                  - { name: name, label: Имя, widget: string }
+                  - { name: meta, label: Пояснение под именем, widget: string, hint: "Например: курс «Твой голос», 2026" }
+                  - { name: avatar, label: Буква или фотография, widget: string, required: false, hint: "Можно оставить «?» — тогда будет кружок с вопросительным знаком" }
+
+          - name: cta
+            label: Последний блок с кнопкой
+            widget: object
+            fields:
+              - { name: image, label: Фон, widget: image }
+              - { name: label, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: lead, label: Абзац, widget: text }
+              - name: buttons
+                label: Кнопки
+                widget: list
+                fields:
+                  - { name: text, label: Текст кнопки, widget: string }
+                  - { name: href, label: Куда ведёт, widget: string }
+                  - name: style
+                    label: Вид кнопки
+                    widget: select
+                    required: false
+                    options:
+                      - { label: Основная (залитая), value: "" }
+                      - { label: Прозрачная, value: btn--ghost }
+
+  # =========================================================
+  # ВНУТРЕННИЕ СТРАНИЦЫ
+  # =========================================================
+  - name: pages
+    label: Страницы
+    files:
+      # ---------- О педагоге ----------
+      - name: o-pedagoge
+        label: О педагоге
+        file: src/content/o-pedagoge.yaml
+        fields:
+          - name: hero
+            label: Первый экран
+            widget: object
+            fields:
+              - { name: title, label: Заголовок, widget: string }
+              - { name: lead, label: Вводный абзац, widget: text }
+              - name: meta
+                label: Строка с фактами
+                widget: list
+                fields:
+                  - { name: label, label: Подпись, widget: string }
+                  - { name: value, label: Значение, widget: string }
+          - name: story
+            label: История
+            widget: object
+            fields:
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: image, label: Фотография, widget: image }
+              - { name: imageAlt, label: Описание фотографии, widget: string }
+              - { name: text1, label: Абзац 1, widget: text }
+              - { name: text2, label: Абзац 2, widget: text }
+              - { name: text3, label: Абзац 3, widget: text }
+              - name: quote
+                label: Цитата
+                widget: object
+                fields:
+                  - { name: text, label: Текст, widget: text }
+                  - { name: author, label: Подпись, widget: string }
+          - name: timeline
+            label: Путь (годы)
+            widget: object
+            fields:
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - name: items
+                label: События
+                widget: list
+                fields:
+                  - { name: dt, label: Когда, widget: string, hint: "Например: 3 года, Институт, Сегодня" }
+                  - { name: dd, label: Что произошло, widget: text }
+          - name: approach
+            label: Подход
+            widget: object
+            fields:
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - name: cards
+                label: Карточки
+                widget: list
+                fields:
+                  - { name: number, label: Номер, widget: string }
+                  - { name: title, label: Заголовок, widget: string }
+                  - { name: text, label: Текст, widget: text }
+          - name: today
+            label: Сегодня
+            widget: object
+            fields:
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: image, label: Фотография, widget: image }
+              - { name: imageAlt, label: Описание фотографии, widget: string }
+              - { name: lead, label: Вводный абзац, widget: text }
+              - { name: list, label: Список, widget: list, field: { widget: string } }
+              - name: buttons
+                label: Кнопки
+                widget: list
+                fields:
+                  - { name: text, label: Текст кнопки, widget: string }
+                  - { name: href, label: Куда ведёт, widget: string }
+                  - { name: style, label: Вид кнопки, widget: select, required: false, options: [{ label: Основная, value: "" }, { label: Прозрачная, value: btn--ghost }] }
+              - name: facts
+                label: Цифры
+                widget: list
+                fields:
+                  - { name: value, label: Крупно, widget: string }
+                  - { name: label, label: Пояснение, widget: string }
+          - name: cta
+            label: Блок с приглашением
+            widget: object
+            fields:
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: lead, label: Абзац, widget: text }
+              - { name: logo, label: Логотип на фоне, widget: image }
+              - name: buttons
+                label: Кнопки
+                widget: list
+                fields:
+                  - { name: text, label: Текст кнопки, widget: string }
+                  - { name: href, label: Куда ведёт, widget: string }
+                  - { name: style, label: Вид кнопки, widget: select, required: false, options: [{ label: Основная, value: "" }, { label: Прозрачная, value: btn--ghost }] }
+
+      # ---------- Занятия ----------
+      - name: zanyatiya
+        label: Занятия и стоимость
+        file: src/content/zanyatiya.yaml
+        fields:
+          - { name: title, label: Название вкладки браузера, widget: string }
+          - { name: description, label: Описание для поисковиков, widget: text }
+          - name: hero
+            label: Первый экран
+            widget: object
+            fields:
+              - { name: breadcrumb, label: Хлебные крошки, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: lead, label: Вводный абзац, widget: text }
+              - name: buttons
+                label: Кнопки
+                widget: list
+                fields:
+                  - { name: text, label: Текст кнопки, widget: string }
+                  - { name: href, label: Куда ведёт, widget: string }
+                  - { name: external, label: Открывать в новой вкладке, widget: boolean, default: false }
+                  - { name: style, label: Вид кнопки, widget: select, required: false, options: [{ label: Основная, value: "" }, { label: Прозрачная, value: btn--ghost }] }
+          - name: formats
+            label: Форматы и цены
+            widget: object
+            fields:
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - name: cards
+                label: Карточки форматов
+                widget: list
+                fields:
+                  - { name: tag, label: Надпись над названием, widget: string }
+                  - { name: tagAccent, label: Выделенное слово в надписи, widget: string, required: false }
+                  - { name: highlight, label: Выделить карточку, widget: boolean, default: false }
+                  - { name: title, label: Название, widget: string }
+                  - { name: text, label: Описание, widget: text }
+                  - { name: bullets, label: Пункты списка, widget: list, field: { widget: string } }
+                  - { name: price, label: Цена, widget: string }
+                  - { name: priceNote, label: Подпись под ценой, widget: string }
+                  - { name: priceSmall, label: Цена мелким шрифтом, widget: boolean, default: false }
+                  - { name: linkText, label: Ссылка — текст, widget: string }
+                  - { name: linkHref, label: Ссылка — адрес, widget: string }
+              - { name: note, label: Примечание, widget: text }
+          - name: course
+            label: Как проходит курс
+            widget: object
+            fields:
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: lead, label: Вводный абзац, widget: text }
+              - name: cards
+                label: Карточки
+                widget: list
+                fields:
+                  - { name: label, label: Надпись, widget: string }
+                  - { name: title, label: Заголовок, widget: string }
+                  - { name: text, label: Текст, widget: text }
+          - name: program
+            label: Программа курса
+            widget: object
+            fields:
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: lead, label: Вводный абзац, widget: text }
+              - name: steps
+                label: Занятия
+                widget: list
+                fields:
+                  - { name: title, label: Название, widget: string }
+                  - { name: text, label: Что происходит, widget: text }
+          - name: start
+            label: Как начать
+            widget: object
+            fields:
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - name: steps
+                label: Шаги
+                widget: list
+                fields:
+                  - { name: title, label: Шаг, widget: string }
+                  - { name: text, label: Пояснение, widget: text }
+          - name: faq
+            label: Частые вопросы
+            widget: object
+            fields:
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - name: items
+                label: Вопросы
+                widget: list
+                fields:
+                  - { name: q, label: Вопрос, widget: string }
+                  - { name: a, label: Ответ, widget: text }
+          - name: cta
+            label: Блок с кнопкой
+            widget: object
+            fields:
+              - { name: image, label: Фон, widget: image }
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: lead, label: Абзац, widget: text }
+              - name: buttons
+                label: Кнопки
+                widget: list
+                fields:
+                  - { name: text, label: Текст кнопки, widget: string }
+                  - { name: href, label: Куда ведёт, widget: string }
+                  - { name: style, label: Вид кнопки, widget: select, required: false, options: [{ label: Основная, value: "" }, { label: Прозрачная, value: btn--ghost }] }
+
+      # ---------- Контакты ----------
+      - name: kontakty
+        label: Контакты
+        file: src/content/kontakty.yaml
+        fields:
+          - name: hero
+            label: Первый экран
+            widget: object
+            fields:
+              - { name: title, label: Заголовок, widget: string }
+              - { name: lead, label: Вводный абзац, widget: text }
+          - name: contactsTitle
+            label: Заголовок блока контактов
+            widget: object
+            fields:
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+          - name: contacts
+            label: Контакты
+            widget: list
+            fields:
+              - { name: icon, label: Значок, widget: string, hint: "Оставьте как есть, если не уверены" }
+              - { name: title, label: Название, widget: string }
+              - name: links
+                label: Ссылки
+                widget: list
+                fields:
+                  - { name: text, label: Текст, widget: string }
+                  - { name: href, label: Адрес, widget: string }
+          - name: map
+            label: Карта
+            widget: object
+            fields:
+              - { name: src, label: Ссылка на карту, widget: string }
+              - { name: title, label: Заголовок карты, widget: string }
+              - { name: pinTitle, label: Метка — заголовок, widget: string }
+              - { name: pinText, label: Метка — пояснение, widget: text }
+              - { name: linkText, label: Ссылка — текст, widget: string }
+              - { name: linkHref, label: Ссылка — адрес, widget: string }
+          - name: form
+            label: Форма заявки
+            widget: object
+            fields:
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: lead, label: Вводный абзац, widget: text }
+              - name: fields
+                label: Поля формы
+                widget: list
+                fields:
+                  - { name: id, label: Техническое имя, widget: string, hint: "Менять не нужно" }
+                  - { name: name, label: Подпись поля, widget: string }
+                  - { name: label, label: Подпись для незрячих, widget: string }
+                  - { name: type, label: Тип поля, widget: select, options: [text, tel, textarea] }
+                  - { name: autocomplete, label: Автозаполнение, widget: string, required: false }
+                  - { name: required, label: Обязательное, widget: boolean, default: false }
+              - { name: button, label: Надпись на кнопке, widget: string }
+              - { name: policyBefore, label: Текст перед ссылкой на политику, widget: string }
+              - { name: policyText, label: Текст ссылки на политику, widget: string }
+              - { name: policyHref, label: Адрес политики, widget: string }
+              - { name: policyAfter, label: Текст после ссылки, widget: string, required: false }
+          - name: quote
+            label: Цитата
+            widget: object
+            fields:
+              - { name: text, label: Текст, widget: text }
+          - name: formats
+            label: Форматы занятий (внизу страницы)
+            widget: list
+            fields:
+              - { name: number, label: Номер, widget: string }
+              - { name: title, label: Название, widget: string }
+              - { name: text, label: Текст, widget: text }
+
+      # ---------- Политика ----------
+      - name: politika
+        label: Политика конфиденциальности
+        file: src/content/politika.yaml
+        fields:
+          - { name: title, label: Название вкладки браузера, widget: string }
+          - { name: description, label: Описание для поисковиков, widget: text }
+          - name: hero
+            label: Первый экран
+            widget: object
+            fields:
+              - { name: breadcrumb, label: Хлебные крошки, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: lead, label: Вводный абзац, widget: text }
+          - name: doc
+            label: Текст документа
+            widget: list
+            hint: "Блоки идут по порядку. «Заголовок» — название раздела, «Абзац» — обычный текст, «Список» — пункт списка."
+            fields:
+              - name: type
+                label: Вид блока
+                widget: select
+                options:
+                  - { label: Заголовок раздела, value: heading }
+                  - { label: Абзац, value: text }
+                  - { label: Пункт списка, value: list }
+              - { name: text, label: Текст, widget: text }
+          - name: cards
+            label: Карточки внизу
+            widget: list
+            fields:
+              - { name: title, label: Заголовок, widget: string }
+              - { name: text, label: Текст, widget: text }
+              - { name: linkText, label: Ссылка — текст, widget: string }
+              - { name: linkHref, label: Ссылка — адрес, widget: string }
+              - { name: external, label: Открывать в новой вкладке, widget: boolean, default: false }
+
+      # ---------- Блог (страница списка) ----------
+      - name: blog
+        label: Блог (страница со списком)
+        file: src/content/blog.yaml
+        fields:
+          - { name: title, label: Название вкладки браузера, widget: string }
+          - { name: description, label: Описание для поисковиков, widget: text }
+          - name: hero
+            label: Первый экран
+            widget: object
+            fields:
+              - { name: title, label: Заголовок, widget: string }
+              - { name: lead, label: Вводный абзац, widget: text }
+              - { name: tags, label: Облако тегов, widget: list, field: { widget: string } }
+          - name: list
+            label: Заголовок списка статей
+            widget: object
+            fields:
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+          - name: upcoming
+            label: Статьи, которые ещё готовятся
+            widget: list
+            hint: "Показываются в списке с пометкой «скоро». Когда статья написана — создайте её в разделе «Статьи блога» и удалите лишнюю заготовку отсюда."
+            fields:
+              - { name: image, label: Картинка, widget: image, required: false }
+              - { name: category, label: Раздел, widget: string, required: false }
+              - { name: readingTime, label: Время чтения, widget: string, required: false }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: text, label: Краткое описание, widget: text }
+          - name: cta
+            label: Блок с кнопкой
+            widget: object
+            fields:
+              - { name: eyebrow, label: Надпись сверху, widget: string }
+              - { name: title, label: Заголовок, widget: string }
+              - { name: lead, label: Абзац, widget: text }
+              - name: buttons
+                label: Кнопки
+                widget: list
+                fields:
+                  - { name: text, label: Текст кнопки, widget: string }
+                  - { name: href, label: Куда ведёт, widget: string }
+                  - { name: style, label: Вид кнопки, widget: select, required: false, options: [{ label: Основная, value: "" }, { label: Прозрачная, value: btn--ghost }] }
+
+  # =========================================================
+  # СТАТЬИ БЛОГА
+  # =========================================================
+  - name: posts
+    label: Статьи блога
+    label_singular: Статья
+    folder: src/content/posts
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { name: title, label: Заголовок статьи, widget: string }
+      - { name: titleAccent, label: Слова в заголовке для выделения, widget: string, required: false }
+      - { name: category, label: Раздел, widget: string, hint: "Например: Психология, Техника, Дети" }
+      - { name: readingTime, label: Время чтения, widget: string, required: false, hint: "Например: 5 минут чтения" }
+      - { name: description, label: Описание для поисковиков, widget: text }
+      - { name: date, label: Дата, widget: datetime, date_format: YYYY-MM-DD, time_format: false }
+      - { name: excerpt, label: Краткое описание для списка, widget: text }
+      - { name: image, label: Картинка статьи, widget: image, required: false }
+      - { name: imageAlt, label: Описание картинки, widget: string, required: false }
+      - { name: body, label: Текст статьи, widget: markdown }
+      # Технические поля — менять не нужно.
+      - { name: layout, label: layout, widget: hidden, default: layouts/layout-post.njk }
+      - { name: tags, label: tags, widget: hidden, default: posts }
+      - { name: permalink, label: permalink, widget: hidden, default: "/{{ page.fileSlug }}.html" }
+      - { name: active, label: active, widget: hidden, default: /blog }
+
+  # =========================================================
+  # НАСТРОЙКИ САЙТА
+  # =========================================================
+  - name: settings
+    label: Настройки сайта
+    files:
+      - name: site
+        label: Общие настройки (адрес, меню, соцсети)
+        file: src/content/site.yaml
+        fields:
+          - { name: name, label: Короткое название, widget: string }
+          - { name: fullName, label: Полное название, widget: string }
+          - { name: teacherName, label: Имя педагога, widget: string }
+          - { name: teacherGenitive, label: Имя педагога (в родительном падеже), widget: string, hint: "Для подписи «школа …»: Натальи Охочинской" }
+          - { name: ariaName, label: Название для программ чтения с экрана, widget: string }
+          - { name: city, label: Город, widget: string }
+          - { name: address, label: Улица и дом, widget: string }
+          - { name: place, label: Где именно, widget: string }
+          - { name: venue, label: Пространство, widget: string }
+          - { name: metro, label: Метро, widget: string }
+          - { name: tagline, label: Описание школы (в подвале), widget: text }
+          - { name: logoMark, label: Логотип в шапке, widget: image }
+          - { name: logoFull, label: Большой логотип в подвале, widget: image }
+          - { name: favicon, label: Значок вкладки браузера, widget: image }
+          - name: mainVariant
+            label: Какой вариант главной показывать
+            widget: select
+            options:
+              - { label: "Вариант 1 — тёмный, с большой фотографией", value: 1 }
+              - { label: "Вариант 2 — «Редакция»", value: 2 }
+              - { label: "Вариант 3 — «Афиша»", value: 3 }
+          - name: menu
+            label: Меню сайта
+            widget: list
+            fields:
+              - { name: title, label: Название пункта, widget: string }
+              - { name: href, label: Адрес, widget: string, hint: "Например /zanyatiya — без .html" }
+              - { name: footerTitle, label: Название в подвале (если отличается), widget: string, required: false }
+          - { name: menuFoot, label: Подпись под меню на телефоне, widget: string }
+          - name: menuSocials
+            label: Ссылки в полноэкранном меню (на главной)
+            widget: list
+            fields:
+              - { name: label, label: Название, widget: string }
+              - { name: url, label: Адрес, widget: string }
+          - name: socials
+            label: Соцсети
+            widget: list
+            fields:
+              - { name: label, label: Название, widget: string }
+              - { name: url, label: Адрес, widget: string }
+          - { name: phone, label: Телефон, widget: string, required: false, hint: "Можно оставить пустым" }
+          - { name: email, label: Почта, widget: string, required: false, hint: "Можно оставить пустым" }
+          - { name: telegram, label: Telegram (как показывать), widget: string }
+          - { name: telegramUrl, label: Telegram (ссылка), widget: string }
+          - { name: footerNote, label: Подпись внизу сайта, widget: string }

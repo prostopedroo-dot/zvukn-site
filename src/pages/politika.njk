@@ -1,0 +1,55 @@
+---
+layout: layouts/layout-inner.njk
+permalink: /politika.html
+bodyClass: cat--policy
+eleventyComputed:
+  title: "{{ politika.title }}"
+  description: "{{ politika.description }}"
+---
+{%- set P = politika %}
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Хлебные крошки">
+        <a href="{{ '/index' | url }}">Главная</a><span>/</span><span>{{ P.hero.breadcrumb }}</span>
+      </nav>
+      <h1 class="display-xl">{{ P.hero.title | safe }}</h1>
+      <p class="lead">{{ P.hero.lead }}</p>
+    </div>
+  </section>
+
+  <section class="section" id="doc" data-abs="a">
+    <div class="container doc reveal">
+
+      {% for block in P.doc %}
+      {%- if block.type == "heading" %}
+      <h2>{{ block.text }}</h2>
+      {%- elif block.type == "list" %}
+      <ul>
+        {%- for item in block.items %}
+        <li>{{ item }}</li>
+        {%- endfor %}
+      </ul>
+      {%- else %}
+      <p{% if block.class %} class="{{ block.class }}"{% endif %}>{{ block.text | safe }}</p>
+      {%- endif %}
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="section section--tight section--line">
+    <div class="container">
+      <div class="grid grid-2">
+        {% for card in P.cards %}
+        <article class="card reveal"{% if not loop.first %} data-delay="{{ loop.index - 1 }}"{% endif %}>
+          <h3>{{ card.title }}</h3>
+          <p>{{ card.text }}</p>
+          <a class="link-arrow" href="{{ card.linkHref | url }}"{% if card.external %} target="_blank" rel="noopener"{% endif %}>
+            {{ card.linkText }}
+            <svg viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M0 5h14M10 1l4 4-4 4" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>

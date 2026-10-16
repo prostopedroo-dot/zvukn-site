@@ -1,0 +1,148 @@
+---
+layout: layouts/layout-inner.njk
+permalink: /kontakty.html
+active: /kontakty
+bodyClass: cat--kontakty
+title: 'Контакты и запись — вокальная школа «Звук N», Санкт-Петербург'
+description: "Записаться на занятие по вокалу в Санкт-Петербурге: ул. Социалистическая, 21, апарт-отель Ye's на Марата, 10 этаж, Zarenkov Gallery. Telegram @natlyone."
+---
+{# Страница «Контакты». Содержимое — src/content/kontakty.yaml.
+   Якорь id="zayavka" на секции с формой — на него ведут кнопки «Записаться» с других страниц.
+   Скрипт src/assets/js/site.js собирает поля формы (name) и открывает Telegram — id и name полей не менять. #}
+{% set K = kontakty %}
+{% set F = K.form.fields %}
+
+{# Поле формы. id и name менять нельзя — по ним собирается заявка в Telegram. #}
+{% macro formField(f) -%}
+<div class="field">
+{% if f.type == 'textarea' -%}
+<textarea id="{{ f.id }}" name="{{ f.name }}" placeholder=" "></textarea>
+{%- else -%}
+<input type="{{ f.type }}" id="{{ f.id }}" name="{{ f.name }}" placeholder=" "{% if f.autocomplete %} autocomplete="{{ f.autocomplete }}"{% endif %}{% if f.required %} required{% endif %}>
+{%- endif %}
+<label for="{{ f.id }}">{{ f.label }}</label>
+</div>
+{%- endmacro %}
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Хлебные крошки">
+        <a href="{{ '/index' | url }}">Главная</a><span>/</span><span>Контакты</span>
+      </nav>
+      <h1 class="display-xl">{{ K.hero.title | safe }}</h1>
+      <p class="lead">{{ K.hero.lead }}</p>
+    </div>
+  </section>
+
+  <!-- ========== КОНТАКТЫ + ФОРМА ========== -->
+  <section class="section" id="zayavka" data-abs="a">
+    <div class="container split" style="align-items:start">
+
+      <div class="reveal">
+        <div class="section-head">
+          <span class="eyebrow">{{ K.contactsTitle.eyebrow }}</span>
+          <h2 class="display-m">{{ K.contactsTitle.title | safe }}</h2>
+        </div>
+
+        <div class="contact-list mt-l">
+          {% for item in K.contacts %}
+          <div class="contact-item">
+            <div class="contact-item__ico" aria-hidden="true">
+              {% if item.icon == 'telegram' %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 4 3 11l6 2 2 6 3-4 4 3 3-14Z"/></svg>
+              {% elif item.icon == 'instagram' %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+              {% elif item.icon == 'map' %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+              {% elif item.icon == 'schedule' %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+              {% endif %}
+            </div>
+            <div>
+              <b>{{ item.title }}</b>
+              {% if item.text %}
+              <span>{{ item.text | safe }}</span>
+              {% endif %}
+              {% if item.links %}
+              {% for link in item.links %}
+              <a href="{{ link.href }}" target="_blank" rel="noopener">{{ link.text }}</a>
+              {% if not loop.last %}<span class="faint"> · </span>{% endif %}
+              {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="map mt-l">
+          <div class="map__widget">
+            <iframe
+              src="{{ K.map.src | safe }}"
+              title="{{ K.map.title }}"
+              loading="lazy"
+              allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div class="map__pin">
+            <span class="map__dot" aria-hidden="true"></span>
+            <div>
+              <b class="display-s">{{ K.map.pinTitle }}</b>
+              <p class="muted mt-s" style="font-size:15px">{{ K.map.pinText | safe }}</p>
+            </div>
+            <a class="link-arrow" href="{{ K.map.linkHref }}" target="_blank" rel="noopener">
+              {{ K.map.linkText }}
+              <svg viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M0 5h14M10 1l4 4-4 4" stroke="currentColor" stroke-width="1.3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ФОРМА -->
+      <div class="reveal" data-delay="1">
+        <div class="card" style="padding:clamp(26px,3.4vw,44px)">
+          <span class="eyebrow">{{ K.form.eyebrow }}</span>
+          <h2 class="display-s mt-s">{{ K.form.title | safe }}</h2>
+          <p class="muted mt-s" style="font-size:15.5px">
+            {{ K.form.lead }}
+          </p>
+
+          <form class="form mt-l" data-lead novalidate>
+            <div class="form-row">
+              {{ formField(F[0]) }}
+              {{ formField(F[1]) }}
+            </div>
+
+{% for f in F %}{% if loop.index0 > 1 %}
+            {{ formField(f) }}{% endif %}{% endfor %}
+
+            <div class="btn-row">
+              <button class="btn" type="submit"><span>{{ K.form.button }}</span></button>
+              <span class="form-status" role="status" aria-live="polite"></span>
+            </div>
+
+            <p class="form-note">{{ K.form.policyBefore }} <a href="{{ K.form.policyHref | url }}">{{ K.form.policyText }}</a> {{ K.form.policyAfter }}</p>
+          </form>
+        </div>
+
+        <div class="quote mt-l" style="padding:clamp(26px,3vw,40px)">
+          <p style="font-size:clamp(19px,2.2vw,26px)">{{ K.quote.text }}</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section class="section section--tight section--line">
+    <div class="container">
+      <div class="grid grid-3">
+        {% for card in K.formats %}
+        <article class="card reveal"{% if loop.index > 1 %} data-delay="{{ loop.index0 }}"{% endif %}>
+          <span class="card__num">{{ card.number }}</span>
+          <h3>{{ card.title }}</h3>
+          <p>{{ card.text }}</p>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>

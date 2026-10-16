@@ -1,0 +1,158 @@
+---
+layout: layouts/layout-inner.njk
+permalink: /o-pedagoge.html
+active: /o-pedagoge
+bodyClass: cat--pedagoge
+title: 'Наталья Охочинская — педагог по вокалу | Звук N, Санкт-Петербург'
+description: 'Наталья Охочинская — певица, педагог по эстрадному и джазовому вокалу и актриса. Руководитель вокальной школы «Звук N» в центре Санкт-Петербурга.'
+---
+{# Страница «О педагоге». Содержимое и фото — src/content/o-pedagoge.yaml. #}
+{% set P = '' | pageData('o-pedagoge') %}
+
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Хлебные крошки">
+        <a href="{{ '/index' | url }}">Главная</a><span>/</span><span>О педагоге</span>
+      </nav>
+      <h1 class="display-xl">{{ P.hero.title | safe }}</h1>
+      <p class="lead">{{ P.hero.lead }}</p>
+
+      <div class="hero__meta" style="max-width:760px">
+        {% for item in P.hero.meta %}
+        <div>{{ item.label }}<strong>{{ item.value }}</strong></div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ИСТОРИЯ ========== -->
+  <section class="section" data-abs="a">
+    <div class="container split">
+      <div class="split__media reveal">
+        <div class="frame frame--tall">
+          <img src="{{ P.story.image | url }}" alt="{{ P.story.imageAlt }}" width="763" height="867">
+        </div>
+      </div>
+
+      <div class="reveal" data-delay="1">
+        <div class="section-head">
+          <span class="eyebrow">{{ P.story.eyebrow }}</span>
+          <h2 class="display-m">{{ P.story.title | safe }}</h2>
+        </div>
+
+        <p class="lead mt-m">
+          {{ P.story.text1 }}
+        </p>
+
+        <p class="mt-m muted">
+          {{ P.story.text2 }}
+        </p>
+
+        <p class="mt-m muted">
+          {{ P.story.text3 }}
+        </p>
+
+        <blockquote class="quote mt-l">
+          <p>{{ P.story.quote.text }}</p>
+          <footer>{{ P.story.quote.author }}</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ПУТЬ ========== -->
+  <section class="section bg-deep section--line" data-abs="b">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">{{ P.timeline.eyebrow }}</span>
+        <h2 class="display-l">{{ P.timeline.title | safe }}</h2>
+      </div>
+
+      <dl class="timeline reveal">
+        {% for item in P.timeline.items %}
+        <div class="tl-item">
+          <dt>{{ item.dt }}</dt>
+          <dd>{{ item.dd }}</dd>
+        </div>
+        {% endfor %}
+      </dl>
+    </div>
+  </section>
+
+  <!-- ========== ПОДХОД ========== -->
+  <section class="section" data-abs="c">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">{{ P.approach.eyebrow }}</span>
+        <h2 class="display-l">{{ P.approach.title | safe }}</h2>
+      </div>
+
+      <div class="grid grid-2 mt-xl">
+        {% for card in P.approach.cards %}
+        <article class="card reveal"{% if loop.index > 1 %} data-delay="{{ loop.index0 }}"{% endif %}>
+          <span class="card__num">{{ card.number }}</span>
+          <h3>{{ card.title }}</h3>
+          <p>{{ card.text }}</p>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ФАКТЫ + ФОТО ========== -->
+  <section class="section bg-panel section--line" data-abs="d">
+    <div class="container">
+      <div class="split split--reverse">
+        <div class="split__media reveal">
+          <div class="frame frame--poster">
+            <img src="{{ P.today.image | url }}" alt="{{ P.today.imageAlt }}" width="900" height="1274">
+          </div>
+        </div>
+
+        <div class="reveal" data-delay="1">
+          <div class="section-head">
+            <span class="eyebrow">{{ P.today.eyebrow }}</span>
+            <h2 class="display-m">{{ P.today.title | safe }}</h2>
+          </div>
+          <p class="lead mt-m">
+            {{ P.today.lead | safe }}
+          </p>
+          <ul class="mt-m" style="list-style:none;padding:0;display:grid;gap:14px">
+            {% for item in P.today.list %}
+            <li class="muted">{{ item }}</li>
+            {% endfor %}
+          </ul>
+          <div class="btn-row mt-l">
+            {% for btn in P.today.buttons %}
+            <a class="btn{% if btn.style %} {{ btn.style }}{% endif %}" href="{{ btn.href | url }}"><span>{{ btn.text }}</span></a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="facts reveal">
+        {% for fact in P.today.facts %}
+        <div class="fact"><b>{{ fact.value | safe }}</b><span>{{ fact.label }}</span></div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section class="section section--tight">
+    <div class="container">
+      <div class="cta-band reveal">
+        <img class="cta-band__logo" src="{{ P.cta.logo | url }}" alt="" aria-hidden="true" width="800" height="416">
+        <div style="position:relative;z-index:2;max-width:640px">
+          <span class="eyebrow">{{ P.cta.eyebrow }}</span>
+          <h2 class="display-l mt-s">{{ P.cta.title | safe }}</h2>
+          <p class="lead mt-m">{{ P.cta.lead }}</p>
+          <div class="btn-row">
+            {% for btn in P.cta.buttons %}
+            <a class="btn{% if btn.style %} {{ btn.style }}{% endif %}" href="{{ btn.href | url }}"><span>{{ btn.text }}</span></a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

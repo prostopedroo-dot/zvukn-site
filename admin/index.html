@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Панель управления сайтом — Звук N</title>
+<link rel="icon" href="../assets/img/favicon.png" type="image/png">
+<meta name="robots" content="noindex">
+</head>
+<body>
+<!--
+  Панель управления сайтом вокальной школы «Звук N».
+  Здесь владелец меняет тексты, фотографии и цены — без программиста.
+  Вход: по адресу сайта + /admin/ (например https://zvukn-school.netlify.app/admin/),
+  логин и пароль выдаются отдельно.
+  Настройки полей — в файле admin/config.yml.
+-->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script src="https://unpkg.com/decap-cms@^3.8.4/dist/decap-cms.js"></script>
+<script>
+  // Кнопка «Войти» на самой панели (если открыли её напрямую).
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", function (user) {
+      if (!user) {
+        window.netlifyIdentity.on("login", function () {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>
+</body>
+</html>

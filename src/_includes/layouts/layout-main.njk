@@ -1,0 +1,112 @@
+{#
+Каркас страницы с «красивой» шапкой (варианты главной страницы: 1, 2, 3).
+Ожидает: style (v1.css / v2.css / v3.css), title, description, active (раздел меню), selfHref.
+#}
+{% set variant = style | default('v' + site.mainVariant + '.css') %}
+{%- if variant == 'v2.css' %}{% set H = home | merge('' | pageData('home-v2')) %}
+{%- elif variant == 'v3.css' %}{% set H = home | merge('' | pageData('home-v3')) %}
+{%- else %}{% set H = home %}{% endif %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title | default(H.title) }}</title>
+<meta name="description" content="{{ description | default(H.description) }}">
+<link rel="icon" href="{{ site.favicon | url }}" type="image/png">
+<link rel="stylesheet" href="assets/css/{{ variant }}?v=17">
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
+<a class="skip" href="#main">Перейти к содержанию</a>
+
+<!-- ================= ШАПКА ================= -->
+<header class="hdr">
+  <div class="wrap hdr__in">
+    <a class="brand" href="{{ selfHref | default('/index') | url }}" aria-label="{{ site.ariaName }}">
+      <img src="{{ site.logoMark | url }}" alt="{{ site.name }}" width="130" height="48">
+    </a>
+
+    <nav class="nav" aria-label="Основная навигация">
+      {% for item in site.menu %}{% if item.href != '/index' %}
+      <a href="{{ item.href | url }}"{% if item.href == active %} aria-current="page"{% endif %}>{{ item.title }}</a>
+      {% endif %}{% endfor %}
+    </nav>
+
+    <div class="hdr__right">
+      <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= ПОЛНОЭКРАННОЕ МЕНЮ ================= -->
+<div class="menu" role="dialog" aria-label="Меню">
+  <div></div>
+  <nav class="menu__nav">
+    {% for item in site.menu %}
+    <a href="{{ item.href | url }}">{{ item.title }}</a>
+    {% endfor %}
+  </nav>
+  <div class="menu__foot">
+    <span>{{ site.city }} · {{ site.address }}</span>
+    {% for social in site.menuSocials %}
+    <a href="{{ social.url }}" target="_blank" rel="noopener">{{ social.label }}</a>
+    {% endfor %}
+  </div>
+</div>
+
+<main id="main">
+{{ content | safe }}
+</main>
+
+<!-- ================= ПОДВАЛ ================= -->
+<footer class="f">
+  <div class="wrap">
+    <div class="f__grid">
+      <div>
+        <img class="f__logo" src="{{ site.logoFull | url }}" alt="{{ site.ariaName }}" width="800" height="416">
+        <p class="f__tag">{{ site.tagline }}</p>
+      </div>
+
+      <div class="f__col">
+        <h3>Разделы</h3>
+        <ul>
+          {% for item in site.menu %}
+          <li><a href="{{ item.href | url }}">{{ item.footerTitle or item.title }}</a></li>
+          {% endfor %}
+          <li><a href="{{ '/politika' | url }}">Политика конфиденциальности</a></li>
+        </ul>
+      </div>
+
+      <div class="f__col">
+        <h3>Соцсети</h3>
+        <ul>
+          {% for social in site.socials %}
+          <li><a href="{{ social.url }}" target="_blank" rel="noopener">{{ social.label }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="f__col">
+        <h3>Контакты</h3>
+        <ul>
+          {% if site.telegram %}<li><a href="{{ site.telegramUrl }}" target="_blank" rel="noopener">{{ site.telegram }}</a></li>{% endif %}
+          {% if site.phone %}<li><a href="tel:{{ site.phone }}">{{ site.phone }}</a></li>{% endif %}
+          {% if site.email %}<li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>{% endif %}
+          <li><span>{{ site.city }},<br>{{ site.address }}</span></li>
+          <li><span>{{ site.place }}<br>{{ site.venue }}</span></li>
+          <li><span>{{ site.metro }}</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="f__bottom">
+      <span>© <span data-year>2026</span> {{ site.fullName }}</span>
+      <span><a href="{{ '/politika' | url }}">Политика конфиденциальности</a> · Вариант {{ variantNumber | default(site.mainVariant) }} · {{ site.footerNote }}</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

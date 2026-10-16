@@ -1,0 +1,18 @@
+{
+  "name": "zvukn-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Сайт вокальной школы «Звук N»",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve",
+    "clean": "rm -rf _site"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6"
+  },
+  "dependencies": {
+    "js-yaml": "^5.4.3"
+  }
+}

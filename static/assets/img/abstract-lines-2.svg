@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <linearGradient id="strand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F7E3C8" stop-opacity="0.9"/>
+      <stop offset="0.55" stop-color="#D8A07A" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#A8674A" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="strand2" x1="0" y1="0" x2="1" y2="0.4">
+      <stop offset="0" stop-color="#C97E5B" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#E8B18A" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#F7E3C8" stop-opacity="0.25"/>
+    </linearGradient>
+    <radialGradient id="blush" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#E8B49A" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#E8B49A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="1150" cy="160" rx="700" ry="380" fill="url(#blush)"/>
+  <ellipse cx="240" cy="700" rx="420" ry="300" fill="url(#blush)"/>
+  <path d="M-302 4C254 142 856 320 1664 652" stroke="url(#strand)" stroke-width="1.1" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M-276 12C272 156 868 340 1672 676" stroke="url(#strand)" stroke-width="1.2" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M-250 20C290 170 880 360 1680 700" stroke="url(#strand)" stroke-width="1.4" stroke-opacity="0.3" stroke-linecap="round"/>
+  <path d="M-224 28C308 184 892 380 1688 724" stroke="url(#strand)" stroke-width="1.5" stroke-opacity="0.3" stroke-linecap="round"/>
+  <path d="M-198 36C326 198 904 400 1696 748" stroke="url(#strand)" stroke-width="1.6" stroke-opacity="0.3" stroke-linecap="round"/>
+  <path d="M-172 44C344 212 916 420 1704 772" stroke="url(#strand)" stroke-width="1.7" stroke-opacity="0.4" stroke-linecap="round"/>
+  <path d="M-146 52C362 226 928 440 1712 796" stroke="url(#strand)" stroke-width="1.9" stroke-opacity="0.4" stroke-linecap="round"/>
+  <path d="M-120 60C380 240 940 460 1720 820" stroke="url(#strand)" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
+  <path d="M-94 68C398 254 952 480 1728 844" stroke="url(#strand)" stroke-width="1.9" stroke-opacity="0.4" stroke-linecap="round"/>
+  <path d="M-68 76C416 268 964 500 1736 868" stroke="url(#strand)" stroke-width="1.7" stroke-opacity="0.4" stroke-linecap="round"/>
+  <path d="M-42 84C434 282 976 520 1744 892" stroke="url(#strand)" stroke-width="1.6" stroke-opacity="0.3" stroke-linecap="round"/>
+  <path d="M-16 92C452 296 988 540 1752 916" stroke="url(#strand)" stroke-width="1.5" stroke-opacity="0.3" stroke-linecap="round"/>
+  <path d="M10 100C470 310 1000 560 1760 940" stroke="url(#strand)" stroke-width="1.4" stroke-opacity="0.3" stroke-linecap="round"/>
+  <path d="M36 108C488 324 1012 580 1768 964" stroke="url(#strand)" stroke-width="1.2" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M62 116C506 338 1024 600 1776 988" stroke="url(#strand)" stroke-width="1.1" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M-290 370C320 480 950 540 1670 830" stroke="url(#strand2)" stroke-width="1" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M-260 380C340 492 964 556 1680 848" stroke="url(#strand2)" stroke-width="1.1" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M-230 390C360 504 978 572 1690 866" stroke="url(#strand2)" stroke-width="1.2" stroke-opacity="0.3" stroke-linecap="round"/>
+  <path d="M-200 400C380 516 992 588 1700 884" stroke="url(#strand2)" stroke-width="1.2" stroke-opacity="0.3" stroke-linecap="round"/>
+  <path d="M-170 410C400 528 1006 604 1710 902" stroke="url(#strand2)" stroke-width="1.3" stroke-opacity="0.3" stroke-linecap="round"/>
+  <path d="M-140 420C420 540 1020 620 1720 920" stroke="url(#strand2)" stroke-width="1.4" stroke-opacity="0.3" stroke-linecap="round"/>
+  <path d="M-110 430C440 552 1034 636 1730 938" stroke="url(#strand2)" stroke-width="1.3" stroke-opacity="0.3" stroke-linecap="round"/>
+  <path d="M-80 440C460 564 1048 652 1740 956" stroke="url(#strand2)" stroke-width="1.2" stroke-opacity="0.3" stroke-linecap="round"/>
+  <path d="M-50 450C480 576 1062 668 1750 974" stroke="url(#strand2)" stroke-width="1.2" stroke-opacity="0.3" stroke-linecap="round"/>
+  <path d="M-20 460C500 588 1076 684 1760 992" stroke="url(#strand2)" stroke-width="1.1" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M10 470C520 600 1090 700 1770 1010" stroke="url(#strand2)" stroke-width="1" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M-84 -85C461 48 1057 181 1644 423" stroke="url(#strand)" stroke-width="0.6" stroke-opacity="0.1" stroke-linecap="round"/>
+  <path d="M-68 -80C472 56 1064 192 1648 436" stroke="url(#strand)" stroke-width="0.6" stroke-opacity="0.1" stroke-linecap="round"/>
+  <path d="M-52 -75C483 64 1071 203 1652 449" stroke="url(#strand)" stroke-width="0.6" stroke-opacity="0.1" stroke-linecap="round"/>
+  <path d="M-36 -70C494 72 1078 214 1656 462" stroke="url(#strand)" stroke-width="0.7" stroke-opacity="0.1" stroke-linecap="round"/>
+  <path d="M-20 -65C505 80 1085 225 1660 475" stroke="url(#strand)" stroke-width="0.7" stroke-opacity="0.1" stroke-linecap="round"/>
+  <path d="M-4 -60C516 88 1092 236 1664 488" stroke="url(#strand)" stroke-width="0.7" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M12 -55C527 96 1099 247 1668 501" stroke="url(#strand)" stroke-width="0.7" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M28 -50C538 104 1106 258 1672 514" stroke="url(#strand)" stroke-width="0.8" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M44 -45C549 112 1113 269 1676 527" stroke="url(#strand)" stroke-width="0.8" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M60 -40C560 120 1120 280 1680 540" stroke="url(#strand)" stroke-width="0.8" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M76 -35C571 128 1127 291 1684 553" stroke="url(#strand)" stroke-width="0.8" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M92 -30C582 136 1134 302 1688 566" stroke="url(#strand)" stroke-width="0.8" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M108 -25C593 144 1141 313 1692 579" stroke="url(#strand)" stroke-width="0.7" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M124 -20C604 152 1148 324 1696 592" stroke="url(#strand)" stroke-width="0.7" stroke-opacity="0.2" stroke-linecap="round"/>
+  <path d="M140 -15C615 160 1155 335 1700 605" stroke="url(#strand)" stroke-width="0.7" stroke-opacity="0.1" stroke-linecap="round"/>
+  <path d="M156 -10C626 168 1162 346 1704 618" stroke="url(#strand)" stroke-width="0.7" stroke-opacity="0.1" stroke-linecap="round"/>
+  <path d="M172 -5C637 176 1169 357 1708 631" stroke="url(#strand)" stroke-width="0.6" stroke-opacity="0.1" stroke-linecap="round"/>
+  <path d="M188 0C648 184 1176 368 1712 644" stroke="url(#strand)" stroke-width="0.6" stroke-opacity="0.1" stroke-linecap="round"/>
+  <path d="M204 5C659 192 1183 379 1716 657" stroke="url(#strand)" stroke-width="0.6" stroke-opacity="0.1" stroke-linecap="round"/>
+</svg>

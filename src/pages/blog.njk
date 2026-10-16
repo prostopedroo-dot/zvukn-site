@@ -1,0 +1,92 @@
+---
+layout: layouts/layout-inner.njk
+permalink: /blog.html
+active: /blog
+bodyClass: cat--blog
+eleventyComputed:
+  title: "{{ blog.title }}"
+  description: "{{ blog.description }}"
+---
+{#
+Страница «Блог» — разметка повторяет оригинал blog.html.
+Тексты шапки страницы берутся из src/content/blog.yaml,
+список статей собирается сам из файлов src/content/posts.
+#}
+
+<section class="page-hero">
+  <div class="container">
+    <nav class="breadcrumbs" aria-label="Хлебные крошки">
+      <a href="{{ '/index' | url }}">Главная</a><span>/</span><span>Блог</span>
+    </nav>
+    <h1 class="display-xl">{{ blog.hero.title | safe }}</h1>
+    <p class="lead">{{ blog.hero.lead }}</p>
+
+    <div class="btn-row mt-m">
+      {% for tag in blog.hero.tags %}
+      <span class="tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ========== СТАТЬИ ========== -->
+<section class="section" data-abs="a">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">{{ blog.list.eyebrow }}</span>
+      <h2 class="display-l">{{ blog.list.title | safe }}</h2>
+    </div>
+
+    <div class="grid grid-3 mt-xl">
+      {% for post in collections.posts | sortPosts %}
+      <article class="post-card reveal"{% if loop.index0 % 3 == 1 %} data-delay="1"{% elif loop.index0 % 3 == 2 %} data-delay="2"{% endif %}>
+        {% if post.data.image %}
+        <a class="post-card__media" href="{{ post.url }}" aria-label="Читать статью">
+          <img src="{{ post.data.image | url }}" alt="">
+        </a>
+        {% endif %}
+        <div class="post-card__body">
+          <div class="post-card__meta">{% if post.data.category %}<span>{{ post.data.category }}</span>{% endif %}<span>{{ post.date | ruDate }}</span></div>
+          <h3><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
+          <p>{{ post.data.excerpt }}</p>
+          <a class="link-arrow" href="{{ post.url }}">Читать <svg viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M0 5h14M10 1l4 4-4 4" stroke="currentColor" stroke-width="1.3"/></svg></a>
+        </div>
+      </article>
+      {% endfor %}
+      {% for item in blog.upcoming %}
+      <article class="post-card reveal"{% if loop.index0 % 3 == 1 %} data-delay="1"{% elif loop.index0 % 3 == 2 %} data-delay="2"{% endif %}>
+        {% if item.image %}
+        <div class="post-card__media">
+          <img src="{{ item.image | url }}" alt="">
+        </div>
+        {% endif %}
+        <div class="post-card__body">
+          <div class="post-card__meta">{% if item.category %}<span>{{ item.category }}</span>{% endif %}{% if item.readingTime %}<span>{{ item.readingTime }}</span>{% endif %}<span>скоро</span></div>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.text }}</p>
+          <span class="muted" style="margin-top:auto">Статья готовится</span>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section class="section section--tight">
+  <div class="container">
+    <div class="cta-band reveal">
+      <img class="cta-band__logo" src="{{ site.logoFull | url }}" alt="" aria-hidden="true" width="800" height="416">
+      <div style="position:relative;z-index:2;max-width:640px">
+        <span class="eyebrow">{{ blog.cta.eyebrow }}</span>
+        <h2 class="display-l mt-s">{{ blog.cta.title | safe }}</h2>
+        <p class="lead mt-m">{{ blog.cta.lead }}</p>
+        <div class="btn-row">
+          {% for button in blog.cta.buttons %}
+          <a class="btn{% if button.style %} {{ button.style }}{% endif %}" href="{{ button.href | url }}"><span>{{ button.text }}</span></a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,48 @@
+{#
+Страница одной статьи блога — разметка повторяет оригинал blog-post.html.
+Ожидает из frontmatter файла статьи (src/content/posts/*.md):
+title, titleAccent (необязательно), category, readingTime, date, image, imageAlt.
+Тело статьи — обычный markdown, он подставляется через {{ content }}.
+#}
+<section class="page-hero">
+  <div class="container">
+    <nav class="breadcrumbs" aria-label="Хлебные крошки">
+      <a href="{{ '/index' | url }}">Главная</a><span>/</span><a href="{{ '/blog' | url }}">Блог</a>{% if category %}<span>/</span><span>{{ category }}</span>{% endif %}
+    </nav>
+
+    {%- set titleLead = '' %}
+    {%- if titleAccent %}{% set titleLead = (title | replace(titleAccent, '')) | trim %}{% endif %}
+    {%- if titleLead and titleLead != title %}
+    <h1 class="display-l" style="max-width:16ch">{{ titleLead }}<br><span class="italic grad-text">{{ titleAccent }}</span></h1>
+    {%- else %}
+    <h1 class="display-l" style="max-width:16ch">{{ title }}</h1>
+    {%- endif %}
+
+    <div class="post-card__meta" style="margin-top:28px">
+      {% if category %}<span>{{ category }}</span>{% endif %}<span>{{ page.date | ruDate }}</span>{% if readingTime %}<span>{{ readingTime }}</span>{% endif %}<span>{{ author | default(site.teacherName) }}</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    {% if image %}
+    <figure class="reveal" style="margin:0 0 clamp(36px,5vw,64px)">
+      <div class="frame frame--wide">
+        <img src="{{ image | url }}" alt="{{ imageAlt | default(title) }}">
+      </div>
+    </figure>
+    {% endif %}
+
+    <article class="article">
+      {{ content | safe }}
+
+      <div class="btn-row mt-xl">
+        <a class="btn" href="{{ '/kontakty#zayavka' | url }}"><span>Записаться на занятие</span></a>
+        <a class="btn btn--ghost" href="{{ '/blog' | url }}"><span>Все статьи</span></a>
+      </div>
+    </article>
+
+  </div>
+</section>

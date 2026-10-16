@@ -1,0 +1,241 @@
+{#
+Главная страница — вариант 1 («RoofTop»). Содержимое берётся из home.yaml.
+#}
+{% set H = home %}
+
+<!-- ================= ГЕРОЙ ================= -->
+<section class="hero">
+  <div class="hero__bg">
+    <img src="{{ H.hero.image | url }}" alt="{{ H.hero.imageAlt }}">
+  </div>
+
+  <div class="wrap hero__in">
+    <div class="hero__top">
+      <span class="dot" aria-hidden="true"></span>
+      {% for label in H.hero.labels %}
+      <span class="label{% if loop.index > 1 %} label--muted{% endif %}">{{ label }}</span>
+      {% endfor %}
+    </div>
+
+    <h1 class="h-hero">
+      <span class="gr">{{ H.hero.titleLine1 }}</span><br>
+      <span class="gr">{{ H.hero.titleLine2 }}</span>
+      <svg class="h-stroke" viewBox="0 0 360 82" role="img" aria-label="{{ H.hero.titleStrokeLabel | default(H.hero.titleStroke) }}">
+        <defs>
+          <mask id="zvuchOutline" maskUnits="userSpaceOnUse" x="0" y="0" width="360" height="82">
+            <rect x="0" y="0" width="360" height="82" fill="#000"/>
+            <text x="4" y="75" textLength="352" lengthAdjust="spacingAndGlyphs" fill="none" stroke="#FFF" stroke-width="4">{{ H.hero.titleStroke }}</text>
+            <text x="4" y="75" textLength="352" lengthAdjust="spacingAndGlyphs" fill="#000" stroke="none">{{ H.hero.titleStroke }}</text>
+          </mask>
+        </defs>
+        <rect x="0" y="0" width="360" height="82" fill="#F7EDE1" mask="url(#zvuchOutline)"/>
+      </svg>
+    </h1>
+
+    <p class="lead hero__sub">{{ H.hero.lead }}</p>
+
+    <div class="hero__actions">
+      {% for button in H.hero.buttons %}
+      <a class="btn btn--lg{% if button.style %} {{ button.style }}{% endif %}" href="{{ button.href | url }}"><span>{{ button.text }}</span></a>
+      {% endfor %}
+    </div>
+
+    <div class="hero__facts">
+      {% for fact in H.hero.facts %}
+      <div><b>{{ fact.value }}</b><span>{{ fact.label }}</span></div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true">Листайте</div>
+</section>
+
+<!-- ================= БЕГУЩАЯ СТРОКА ================= -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__t">
+    {% for pass in [1, 2] %}{% for word in H.ticker %}<span>{{ word }}</span>{% endfor %}{% endfor %}
+  </div>
+</div>
+
+<!-- ================= О ПЕДАГОГЕ ================= -->
+<section class="sec" data-abs="a">
+  <div class="wrap split">
+    <div class="split__media rv">
+      <div class="photo photo--45">
+        <img src="{{ H.about.image | url }}" alt="{{ H.about.imageAlt }}">
+        <span class="photo__tag">{{ H.about.imageTag }}</span>
+      </div>
+    </div>
+
+    <div class="stack rv" data-d="1">
+      <span class="label">{{ H.about.label }}</span>
+
+      <h2 class="h-2">{{ H.about.title | safe }}</h2>
+
+      <p class="lead">{{ H.about.text1 }}</p>
+
+      <p class="body">{{ H.about.text2 }}</p>
+
+      <ul class="list">
+        {% for item in H.about.list %}
+        <li><i>{{ loop.index | num }}</i><span>{{ item }}</span></li>
+        {% endfor %}
+      </ul>
+
+      <a class="tlink" href="{{ H.about.linkHref | url }}">
+        {{ H.about.linkText }}
+        {% include "arrow.njk" %}
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ЦИТАТА ================= -->
+<section class="sec sec--ink sec--top-line" data-abs="b">
+  <div class="wrap">
+    <div class="rv" style="text-align:center">
+      <p class="quote-lg" style="font-size:clamp(30px,5.4vw,74px);line-height:1.14;max-width:min(860px,100%);margin-inline:auto">
+        {{ H.quote.text | safe }}
+      </p>
+      <cite>{{ H.quote.author }}</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ФОРМАТЫ ================= -->
+<section class="sec sec--top-line" data-abs="c">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <span class="label">{{ H.formats.label }}</span>
+        <h2 class="h-2 mt-s">{{ H.formats.title | safe }}</h2>
+      </div>
+      <div class="sec-head__aside">
+        <p class="body">{{ H.formats.aside }}</p>
+      </div>
+    </div>
+
+    <div class="cols3 mt-xl rv">
+      {% for card in H.formats.cards %}
+      <article class="col">
+        <span class="col__n">{{ card.number }}{% if card.badge %} — {{ card.badge }}{% endif %}</span>
+        <h3 class="h-3">{{ card.title }}</h3>
+        <p>{{ card.text }}</p>
+        <ul>
+          {% for bullet in card.bullets %}<li>{{ bullet }}</li>{% endfor %}
+        </ul>
+        <div class="price{% if card.priceSmall %} price--small{% endif %}"><b>{{ card.price }}</b><span>{{ card.priceNote }}</span></div>
+        <a class="tlink" href="{{ card.linkHref | url }}">
+          {{ card.linkText }}
+          {% include "arrow.njk" %}
+        </a>
+      </article>
+      {% endfor %}
+    </div>
+
+    <p class="body--sm mt-m rv" style="color:var(--faint)">{{ H.formats.note }}</p>
+  </div>
+</section>
+
+<!-- ================= ПРОГРАММА ================= -->
+<section class="sec sec--ink sec--top-line" id="program" data-abs="d">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <span class="label">{{ H.program.label }}</span>
+        <h2 class="h-2 mt-s">{{ H.program.title | safe }}</h2>
+      </div>
+      <div class="sec-head__aside">
+        <p class="body">{{ H.program.aside }}</p>
+      </div>
+    </div>
+
+    <div class="prog mt-xl rv">
+      {% for step in H.program.steps %}
+      <div class="prog__i">
+        <button class="prog__q" type="button">
+          <span class="prog__n">{{ step.number }}</span>
+          <span class="prog__t">{{ step.title }}</span>
+          <span class="prog__s" aria-hidden="true"></span>
+        </button>
+        <div class="prog__a"><div>{{ step.text }}</div></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= ГАЛЕРЕЯ ================= -->
+<section class="sec sec--top-line" data-abs="e">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <span class="label">{{ H.gallery.label }}</span>
+        <h2 class="h-2 mt-s">{{ H.gallery.title | safe }}</h2>
+      </div>
+      <div class="sec-head__aside">
+        <p class="body">{{ H.gallery.aside }}</p>
+      </div>
+    </div>
+
+    <div class="gal mt-xl rv">
+      {% for photo in H.gallery.photos %}
+      <figure>
+        <img src="{{ photo.src | url }}" alt="{{ photo.alt }}">
+        {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
+      </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= ОТЗЫВЫ ================= -->
+<section class="sec sec--ink sec--top-line" data-abs="f">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <span class="label">{{ H.reviews.label }}</span>
+        <h2 class="h-2 mt-s">{{ H.reviews.title | safe }}</h2>
+      </div>
+      <div class="sec-head__aside">
+        <p class="body">{{ H.reviews.aside }}</p>
+      </div>
+    </div>
+
+    <div class="rev mt-xl rv">
+      {% for review in H.reviews.items %}
+      <article class="rev__i">
+        <span class="q">“</span>
+        <p class="todo">{{ review.text }}</p>
+        <div class="rev__who">
+          {% if review.avatar and review.avatar.startsWith('assets') %}
+          <img class="rev__ava" src="{{ review.avatar | url }}" alt="{{ review.name }}" loading="lazy">
+          {% else %}
+          <span class="rev__ava">{{ review.avatar | default('?') }}</span>
+          {% endif %}
+          <div><b>{{ review.name }}</b><span>{{ review.meta }}</span></div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= ПОСЛЕДНИЙ БЛОК ================= -->
+<section class="cta">
+  <div class="cta__bg">
+    <img src="{{ H.cta.image | url }}" alt="">
+  </div>
+  <div class="wrap">
+    <div class="cta__in rv">
+      <span class="label">{{ H.cta.label }}</span>
+      <h2 class="h-1 mt-s">{{ H.cta.title | safe }}</h2>
+      <p class="lead mt-m" style="max-width:48ch">{{ H.cta.lead }}</p>
+      <div class="row mt-l">
+        {% for button in H.cta.buttons %}
+        <a class="btn btn--lg{% if button.style %} {{ button.style }}{% endif %}" href="{{ button.href | url }}"><span>{{ button.text }}</span></a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>

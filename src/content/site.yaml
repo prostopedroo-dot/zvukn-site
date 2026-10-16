@@ -1,0 +1,79 @@
+# ОБЩИЕ НАСТРОЙКИ САЙТА
+# Этот файл меняет владелец сайта. Здесь собрано то, что повторяется на всех страницах.
+
+# --- Название и адрес ---
+name: Звук N
+fullName: Вокальная школа «Звук N»
+teacherName: Наталья Охочинская
+# Для подписей вида «школа Натальи Охочинской» (родительный падеж)
+teacherGenitive: Натальи Охочинской
+# Для описания логотипа (озвучивается программами чтения с экрана)
+ariaName: Звук N — вокальная школа Натальи Охочинской
+city: Санкт-Петербург
+address: ул. Социалистическая, 21
+place: Ye's на Марата, 10 этаж
+venue: Zarenkov Gallery
+metro: 'Метро: Звенигородская'
+telegramUrl: https://t.me/natlyone
+
+# Описание под логотипом в подвале сайта
+tagline: >-
+  Вокальная школа Натальи Охочинской. Эстрадный и джазовый вокал
+  в центре Санкт-Петербурга.
+
+# --- Логотипы ---
+logoMark: assets/img/logo-mark-clean.png
+logoFull: assets/img/logo-full.png
+favicon: assets/img/favicon.png
+
+# --- Какой вариант главной показывать ---
+# 1 — тёмный, с большой фотографией (сейчас выбран)
+# 2 — «Редакция», коричневый, с буквицей
+# 3 — «Афиша», крупными буквами на цветных блоках
+mainVariant: 1
+
+# --- Меню на всех страницах ---
+menu:
+  - title: Главная
+    href: /index
+  - title: О педагоге
+    href: /o-pedagoge
+  - title: Занятия
+    href: /zanyatiya
+    footerTitle: Занятия и стоимость
+  - title: Блог
+    href: /blog
+  - title: Контакты
+    href: /kontakty
+
+# Подпись под меню на телефоне
+menuFoot: Санкт-Петербург · ул. Социалистическая, 21
+
+# Ссылки в полноэкранном меню (на главных страницах)
+menuSocials:
+  - label: Telegram — @natlyone
+    url: https://t.me/natlyone
+  - label: Instagram — @zvuk_n_vocalspb
+    url: https://www.instagram.com/zvuk_n_vocalspb/
+
+# --- Соцсети (показываются в подвале и в полноэкранном меню) ---
+socials:
+  - label: Telegram — школа
+    url: https://t.me/zvuk_n_vocalspb
+  - label: Telegram — запись
+    url: https://t.me/natlyone
+  - label: Instagram — школа
+    url: https://www.instagram.com/zvuk_n_vocalspb/
+  - label: Instagram — Наталья
+    url: https://www.instagram.com/natly.one/
+  - label: VK
+    url: https://vk.ru/natlyone
+
+# --- Контакты ---
+# Телефон и почту можно добавить — они появятся в подвале и на странице «Контакты».
+phone: ""
+email: ""
+telegram: "@natlyone"
+
+# Подпись внизу подвала
+footerNote: Санкт-Петербург · Занятия по записи
