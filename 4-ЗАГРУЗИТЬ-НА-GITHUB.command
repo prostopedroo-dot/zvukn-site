@@ -20,9 +20,13 @@ if ! git rev-parse --git-dir >/dev/null 2>&1; then
   exit 1
 fi
 
-echo "Шаг 1. Вставьте ссылку на ваше хранилище."
-echo "        Пример: https://github.com/natalia/zvukn-site"
+echo "Шаг 1. Ссылка на ваше хранилище."
+echo "        Уже подставлена ваша ссылка:"
+echo "        https://github.com/prostopedroo-dot/zvukn-site"
+echo "        Просто нажмите Enter. (Или введите другую ссылку и нажмите Enter.)"
+DEFAULT_REPO="https://github.com/prostopedroo-dot/zvukn-site"
 read -r -p "Ссылка: " REPO
+if [ -z "$REPO" ]; then REPO="$DEFAULT_REPO"; fi
 REPO="$(echo "$REPO" | tr -d '[:space:]')"
 case "$REPO" in
   https://github.com/*/*) ;;
