@@ -49,6 +49,21 @@
     <input id="pass" type="password" autocomplete="current-password">
     <button type="submit">Войти</button>
     <button type="button" class="ghost" id="forgot">Прислать ссылку для входа (забыли пароль)</button>
+    <button type="button" class="ghost" id="toSignup">Создать новый аккаунт</button>
+  </form>
+
+  <!-- Создание аккаунта -->
+  <form id="signupForm" hidden>
+    <hr />
+    <p>Для нового редактора. Придумайте пароль — сразу, без писем.</p>
+    <label for="sEmail">Почта</label>
+    <input id="sEmail" type="email" autocomplete="username" placeholder="ваша почта">
+    <label for="sPass">Пароль</label>
+    <input id="sPass" type="password" autocomplete="new-password">
+    <label for="sPass2">Повторите пароль</label>
+    <input id="sPass2" type="password" autocomplete="new-password">
+    <button type="submit">Создать аккаунт</button>
+    <button type="button" class="ghost" id="toLogin">Назад ко входу</button>
   </form>
 
   <!-- Установка пароля -->
@@ -110,6 +125,36 @@
     }
   }
   handleTokenThenRender();
+
+  document.getElementById("toSignup").addEventListener("click", function () {
+    loginForm.hidden = true;
+    document.getElementById("signupForm").hidden = false;
+    show("");
+  });
+  document.getElementById("toLogin").addEventListener("click", function () {
+    document.getElementById("signupForm").hidden = true;
+    loginForm.hidden = false;
+    show("");
+  });
+
+  document.getElementById("signupForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var email = document.getElementById("sEmail").value.trim();
+    var p1 = document.getElementById("sPass").value;
+    var p2 = document.getElementById("sPass2").value;
+    if (!email) { show("Введите почту.", "err"); return; }
+    if (!p1) { show("Введите пароль.", "err"); return; }
+    if (p1 !== p2) { show("Пароли не совпадают.", "err"); return; }
+    if (p1.length < 8) { show("Пароль слишком короткий — минимум 8 символов.", "err"); return; }
+    netlifyIdentity.signup(email, p1)
+      .then(function (user) {
+        show("Аккаунт создан. Можно входить в панель: /admin/", "ok");
+        if (user) render(user);
+      })
+      .catch(function (err) {
+        show("Не получилось: " + (err && err.message ? err.message : "ошибка"), "err");
+      });
+  });
 
   document.getElementById("loginForm").addEventListener("submit", function (e) {
     e.preventDefault();
