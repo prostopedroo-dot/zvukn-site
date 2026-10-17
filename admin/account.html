@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Пароль редактора — Звук N</title>
+<title>Вход и пароль редактора — Звук N</title>
 <link rel="icon" href="../assets/img/favicon.png" type="image/png">
 <meta name="robots" content="noindex">
 <style>
@@ -12,9 +12,9 @@
     background: #14100d; color: #f3ece3;
     font: 16px/1.6 -apple-system, "Helvetica Neue", Arial, sans-serif;
   }
-  .box { width: min(460px, 92vw); padding: 34px; border: 1px solid rgba(243,236,227,.18); border-radius: 14px; }
+  .box { width: min(470px, 92vw); padding: 32px; border: 1px solid rgba(243,236,227,.18); border-radius: 14px; }
   h1 { font-size: 22px; margin: 0 0 8px; font-weight: 600; }
-  p  { margin: 0 0 18px; color: rgba(243,236,227,.72); font-size: 14.5px; }
+  p  { margin: 0 0 16px; color: rgba(243,236,227,.72); font-size: 14.5px; }
   label { display: block; margin: 14px 0 6px; font-size: 13px; color: rgba(243,236,227,.8); }
   input {
     width: 100%; padding: 11px 13px; border-radius: 9px; font-size: 15px;
@@ -22,24 +22,39 @@
   }
   input:focus { outline: 2px solid #c8a35c; outline-offset: 1px; }
   button {
-    margin-top: 22px; width: 100%; padding: 13px; border: 0; border-radius: 999px;
+    margin-top: 20px; width: 100%; padding: 13px; border: 0; border-radius: 999px;
     background: #f3ece3; color: #14100d; font-size: 15px; font-weight: 600; cursor: pointer;
   }
+  button.ghost { background: transparent; color: #c8a35c; border: 1px solid rgba(200,163,92,.5); margin-top: 10px; }
   .msg { margin-top: 16px; font-size: 14px; min-height: 20px; }
   .ok { color: #9fd8a8; }
   .err { color: #e89a8a; }
-  .hint { font-size: 13px; color: rgba(243,236,227,.55); margin-top: 12px; }
+  .who { margin-top: 4px; font-size: 13.5px; color: rgba(243,236,227,.62); }
   a { color: #c8a35c; }
+  hr { border: 0; border-top: 1px solid rgba(243,236,227,.14); margin: 24px 0 18px; }
 </style>
 </head>
 <body>
 <div class="box">
-  <h1>Пароль редактора</h1>
-  <p>Придумайте пароль для входа в панель управления сайтом. Он понадобится только вам — на этом компьютере и в панели.</p>
+  <h1>Вход для редактора</h1>
+  <div class="who" id="who">Проверяем…</div>
 
-  <div id="who" class="hint">Проверяем вход…</div>
+  <!-- Вход -->
+  <form id="loginForm" hidden>
+    <hr />
+    <p>Введите почту и пароль.</p>
+    <label for="email">Почта</label>
+    <input id="email" type="email" autocomplete="username" placeholder="ваша почта">
+    <label for="pass">Пароль</label>
+    <input id="pass" type="password" autocomplete="current-password">
+    <button type="submit">Войти</button>
+    <button type="button" class="ghost" id="forgot">Прислать ссылку для входа (забыли пароль)</button>
+  </form>
 
-  <form id="form" hidden>
+  <!-- Установка пароля -->
+  <form id="passForm" hidden>
+    <hr />
+    <p>Придумайте пароль — он понадобится вам для входа в панель.</p>
     <label for="p1">Новый пароль</label>
     <input id="p1" type="password" autocomplete="new-password">
     <label for="p2">Повторите пароль</label>
@@ -49,48 +64,82 @@
 
   <div id="msg" class="msg"></div>
 
-  <p class="hint" id="foot">
-    Если вы ещё не вошли: откройте <a href="/admin/">панель управления</a>,
-    нажмите «Войти через Netlify Identity», затем «Forgot password?» —
-    Netlify пришлёт письмо со ссылкой, она откроет панель.
+  <p class="who" style="margin-top:22px">
+    Панель управления: <a href="/admin/">/admin/</a>
   </p>
 </div>
 
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
   var who = document.getElementById("who");
-  var form = document.getElementById("form");
+  var loginForm = document.getElementById("loginForm");
+  var passForm = document.getElementById("passForm");
   var msg = document.getElementById("msg");
 
-  netlifyIdentity.on("init", function (user, token) {
+  function show(text, kind) {
+    msg.className = "msg " + (kind || "");
+    msg.textContent = text;
+  }
+
+  function render(user) {
     if (user) {
       who.innerHTML = "Вы вошли как: <b>" + user.email + "</b>";
-      form.hidden = false;
-      document.getElementById("foot").style.display = "none";
+      passForm.hidden = false;
+      loginForm.hidden = true;
     } else {
-      who.textContent = "Вы ещё не вошли в панель.";
+      who.textContent = "Вы ещё не вошли.";
+      loginForm.hidden = false;
+      passForm.hidden = true;
     }
+  }
+
+  // Если пришли по ссылке из письма — обрабатываем её сразу.
+  function handleTokenThenRender() {
+    var hash = window.location.hash || "";
+    var hasToken = /(recovery_token|invite_token|confirmation_token|email_change_token)/.test(hash);
+    if (hasToken && netlifyIdentity.handleAuthCallback) {
+      who.textContent = "Обрабатываем ссылку из письма…";
+      netlifyIdentity.handleAuthCallback()
+        .then(function (result) {
+          render(result && result.user ? result.user : null);
+          if (result && result.user) show("Ссылка сработала. Задайте пароль ниже.", "ok");
+        })
+        .catch(function (err) { render(null); show("Ссылка не сработала: " + (err && err.message ? err.message : "ошибка"), "err"); });
+    } else {
+      netlifyIdentity.on("init", render);
+    }
+  }
+  handleTokenThenRender();
+
+  document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var email = document.getElementById("email").value.trim();
+    var password = document.getElementById("pass").value;
+    if (!email || !password) { show("Заполните почту и пароль.", "err"); return; }
+    netlifyIdentity.login(email, password, true)
+      .then(function (user) { render(user); show("Готово, вы вошли. Задайте пароль ниже.", "ok"); })
+      .catch(function (err) { show("Не получилось: " + (err && err.message ? err.message : "ошибка"), "err"); });
   });
 
-  document.getElementById("form").addEventListener("submit", function (e) {
+  document.getElementById("forgot").addEventListener("click", function () {
+    var email = document.getElementById("email").value.trim();
+    if (!email) { show("Введите почту, чтобы прислать ссылку.", "err"); return; }
+    netlifyIdentity.requestPasswordRecovery(email)
+      .then(function () { show("Письмо отправлено. Откройте ссылку из него — придёте сюда.", "ok"); })
+      .catch(function (err) { show("Не получилось: " + (err && err.message ? err.message : "ошибка"), "err"); });
+  });
+
+  document.getElementById("passForm").addEventListener("submit", function (e) {
     e.preventDefault();
     var p1 = document.getElementById("p1").value;
     var p2 = document.getElementById("p2").value;
     if (!p1) { show("Введите пароль.", "err"); return; }
     if (p1 !== p2) { show("Пароли не совпадают.", "err"); return; }
     if (p1.length < 8) { show("Пароль слишком короткий — минимум 8 символов.", "err"); return; }
-
     netlifyIdentity.updateUser({ password: p1, password_confirm: p2 })
-      .then(function () { show("Готово! Пароль сохранён. Теперь заходите в панель: /admin/", "ok"); })
-      .catch(function (err) {
-        show("Не получилось: " + (err && err.message ? err.message : "ошибка"), "err");
-      });
+      .then(function () { show("Готово! Пароль сохранён. Теперь входите в панель: /admin/", "ok"); })
+      .catch(function (err) { show("Не получилось: " + (err && err.message ? err.message : "ошибка"), "err"); });
   });
-
-  function show(text, kind) {
-    msg.className = "msg " + kind;
-    msg.textContent = text;
-  }
 </script>
 </body>
 </html>

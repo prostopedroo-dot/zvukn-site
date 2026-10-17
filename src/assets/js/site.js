@@ -12,7 +12,7 @@
     var isAdmin = /\/admin\/?/.test(window.location.pathname);
     if (isAdmin) return;
     if (/(recovery_token|confirmation_token|invite_token|email_change_token)/.test(hash)) {
-      window.location.replace("/admin/" + hash);
+      window.location.replace("/admin/account.html" + hash);
     }
   })();
 
