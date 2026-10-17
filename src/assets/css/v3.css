@@ -535,6 +535,6 @@ body.nav-open .menu__foot { opacity: 1; }
 }
 
 /* Нижняя строка подвала: город, ссылки и почти невидимый вход для редактора */
-.fb__mid { text-align: center; line-height: 1.9; }
+.fb__left { text-align: left; line-height: 1.9; }
 .ed { opacity: .22; transition: opacity .25s ease; }
 .ed:hover, .ed:focus-visible { opacity: .85; }
