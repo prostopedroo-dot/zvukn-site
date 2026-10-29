@@ -1,8 +1,5 @@
-ZARENKOV GALLERY — ПЯТЬ ВАРИАНТОВ ЛЕНДИНГА
+ZARENKOV GALLERY — ПЯТЬ ВАРИАНТОВ
 
-1. Откройте index.html — страница выбора.
-2. Нажмите на карточку варианта.
-3. Отдельные варианты: svet/, noch/, afisha/, zhurnal/, vitrina/.
-
-Формы на Netlify отправляют заявки в Netlify Forms.
-Локально (file://) работает демо-подтверждение.
+index.html — выбор варианта.
+svet/, noch/, afisha/, zhurnal/, vitrina/ — сами варианты.
+Формы отправляют заявки в Netlify Forms.

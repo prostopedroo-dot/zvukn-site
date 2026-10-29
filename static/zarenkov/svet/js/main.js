@@ -178,7 +178,7 @@
   });
 
   /* ---------- отправка формы: Netlify Forms + локальное демо ---------- */
-  document.querySelectorAll('form[data-netlify]').forEach(function (form) {
+  document.querySelectorAll('form[name^="zarenkov-"]').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!form.checkValidity()) {
