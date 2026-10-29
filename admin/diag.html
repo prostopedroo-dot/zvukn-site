@@ -36,7 +36,12 @@
     put("localStorage: " + keys(localStorage));
     put("sessionStorage: " + keys(sessionStorage));
 
-    if (!u) { put("Нет пользователя — войдите в панели и обновите эту страницу."); return; }
+    if (!u) {
+      put("Нет пользователя — откройте окно входа.");
+      netlifyIdentity.on("login", function () { out.textContent = ""; start(); });
+      netlifyIdentity.open("login");
+      return;
+    }
 
     var d = null;
     try { d = u.token && u.token.tokenDetails ? u.token.tokenDetails() : null; } catch (e) {}
