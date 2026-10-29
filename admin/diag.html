@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Диагностика входа — Звук N</title>
+<meta name="robots" content="noindex">
+<style>
+  body { margin:0; padding:28px; background:#14100d; color:#f3ece3;
+         font:14px/1.55 -apple-system,"Helvetica Neue",Arial,sans-serif; }
+  h1 { font-size:18px; margin:0 0 14px; }
+  pre { white-space:pre-wrap; background:rgba(255,255,255,.06); padding:16px;
+        border-radius:10px; font-size:13px; }
+  a { color:#c8a35c; }
+</style>
+</head>
+<body>
+<h1>Диагностика входа</h1>
+<pre id="out">Считаем…</pre>
+<p><a href="/admin/">← в панель</a></p>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  var out = document.getElementById("out");
+  function put(t) { out.textContent += t + "\n"; }
+
+  function keys(store) {
+    var r = [];
+    for (var i = 0; i < store.length; i++) r.push(store.key(i));
+    return r.join(", ") || "(пусто)";
+  }
+
+  function start() {
+    var u = null;
+    try { u = netlifyIdentity.currentUser(); } catch (e) {}
+    put("Почта: " + (u && u.email ? u.email : "(никого)"));
+    put("localStorage: " + keys(localStorage));
+    put("sessionStorage: " + keys(sessionStorage));
+
+    if (!u) { put("Нет пользователя — войдите в панели и обновите эту страницу."); return; }
+
+    var d = null;
+    try { d = u.token && u.token.tokenDetails ? u.token.tokenDetails() : null; } catch (e) {}
+    if (d) {
+      put("expires_at: " + new Date(d.expires_at * 1000).toLocaleString());
+      put("сейчас:     " + new Date().toLocaleString());
+      put("просрочен:  " + (d.expires_at * 1000 < Date.now() ? "ДА" : "нет"));
+      put("refresh_token: " + (d.refresh_token ? "есть (длина " + d.refresh_token.length + ")" : "НЕТ"));
+      put("access_token:  " + (d.access_token ? "есть (длина " + d.access_token.length + ")" : "НЕТ"));
+    } else {
+      put("tokenDetails: нет");
+    }
+
+    put("--- проверка jwt() ---");
+    try {
+      var p = u.token && u.token.jwt ? u.token.jwt() : null;
+      if (!p) { put("jwt() недоступен"); return; }
+      Promise.resolve(p).then(function (j) {
+        put("jwt(): OK, длина " + (j ? j.length : 0));
+      }).catch(function (e) {
+        put("jwt(): ОШИБКА");
+        put("  message: " + (e && e.message !== undefined ? e.message : "(нет)"));
+        put("  ошибка целиком: " + JSON.stringify(e, Object.getOwnPropertyNames(e || {})));
+      });
+    } catch (e) {
+      put("jwt(): исключение " + e.message);
+    }
+  }
+
+  netlifyIdentity.on("init", start);
+  if (netlifyIdentity.gotrue) start();
+</script>
+</body>
+</html>
