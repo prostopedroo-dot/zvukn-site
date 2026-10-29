@@ -67,10 +67,10 @@
     <button type="button" class="ghost" id="toLogin">Назад ко входу</button>
   </form>
 
-  <!-- Установка пароля -->
+  <!-- Новый пароль: по ссылке из письма или при входе после приглашения -->
   <form id="passForm" hidden>
     <hr />
-    <p>Придумайте пароль — он понадобится вам для входа в панель.</p>
+    <p id="passText">Придумайте пароль — он понадобится вам для входа в панель.</p>
     <label for="p1">Новый пароль</label>
     <input id="p1" type="password" autocomplete="new-password">
     <label for="p2">Повторите пароль</label>
@@ -85,6 +85,18 @@
   </p>
 </div>
 
+<script>
+  /* Сначала забираем ссылку из письма — ДО загрузки виджета Netlify.
+     Раньше окно нового пароля открывал сам виджет и оно могло не показаться;
+     теперь форма всегда открывается здесь, на этой странице. */
+  window.__linkToken = (function () {
+    var raw = (window.location.hash || "") + "&" + (window.location.search || "");
+    var m = raw.match(/(recovery|invite|confirmation|email_change)_token=([^&"']+)/);
+    if (!m) return null;
+    try { window.history.replaceState(null, "", window.location.pathname); } catch (e) {}
+    return { type: m[1], token: m[2] };
+  })();
+</script>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
   var who = document.getElementById("who");
@@ -92,6 +104,8 @@
   var signupForm = document.getElementById("signupForm");
   var passForm = document.getElementById("passForm");
   var msg = document.getElementById("msg");
+  var link = window.__linkToken;
+  var linkedUser = null;
 
   function show(text, kind) {
     msg.className = "msg " + (kind || "");
@@ -103,7 +117,7 @@
     if (err.json && err.json.msg) return err.json.msg;
     if (err.json && err.json.error_description) return err.json.error_description;
     if (err.json && err.json.error) return err.json.error;
-    if (err.message) return err.message + (err.status ? " (" + err.status + ")" : "");
+    if (err.message) return err.message + (err.status ? " (код " + err.status + ")" : "");
     return String(err);
   }
 
@@ -112,7 +126,7 @@
   }
 
   function render(user) {
-    user = user || current();
+    user = user || linkedUser || current();
     if (user && user.email) {
       who.innerHTML = "Вы вошли как: <b>" + user.email + "</b>";
       passForm.hidden = false;
@@ -126,20 +140,56 @@
     }
   }
 
+  /* ---------- вход по ссылке из письма ---------- */
   function boot() {
-    var hash = window.location.hash || "";
-    var hasToken = /(recovery_token|invite_token|confirmation_token|email_change_token)/.test(hash);
-    if (hasToken) {
-      who.textContent = "Обрабатываем ссылку из письма…";
-      // виджет сам разбирает ссылку; даём ему секунду и обновляем состояние
-      setTimeout(function () { render(); }, 1200);
-      setTimeout(function () { render(); }, 3000);
-    } else {
-      netlifyIdentity.on("init", render);
+    if (!link) {
+      netlifyIdentity.on("init", function () { render(); });
+      return;
     }
+
+    if (link.type === "recovery") {
+      who.textContent = "Открываем ссылку из письма…";
+      show("Проверяем ссылку…", "");
+      netlifyIdentity.gotrue.recover(link.token, true)
+        .then(function (user) {
+          linkedUser = user;
+          render(user);
+          show("Ссылка подошла. Придумайте новый пароль ниже.", "ok");
+        })
+        .catch(function (err) {
+          render();
+          show("Ссылка уже не работает — она устарела или её уже открывали. "
+             + "Нажмите «Прислать ссылку для входа»: придёт новая (если сразу не пришла, подождите пару минут).", "err");
+        });
+      return;
+    }
+
+    if (link.type === "invite") {
+      who.textContent = "Пришло приглашение в редакторы.";
+      passForm.hidden = false;
+      loginForm.hidden = true;
+      signupForm.hidden = true;
+      document.getElementById("passText").textContent = "Придумайте пароль для нового редактора — и можно входить в панель.";
+      show("Приглашение принято, осталось задать пароль.", "ok");
+      return;
+    }
+
+    /* подтверждение почты или смена почты */
+    netlifyIdentity.gotrue.verify(link.type, link.token, true)
+      .then(function () {
+        link = null;
+        render();
+        show("Готово, почта подтверждена. Теперь войдите почтой и паролем.", "ok");
+      })
+      .catch(function (err) {
+        link = null;
+        render();
+        show("Ссылка не сработала: " + errText(err), "err");
+      });
   }
   boot();
 
+  /* ---------- кнопки на форме входа ---------- */
   document.getElementById("toSignup").addEventListener("click", function () {
     loginForm.hidden = true;
     signupForm.hidden = false;
@@ -159,7 +209,7 @@
     show("Проверяем…", "");
     netlifyIdentity.gotrue.login(email, password, true)
       .then(function () { return netlifyIdentity.refresh(); })
-      .then(function () { render(); show("Готово, вы вошли. Задайте пароль ниже.", "ok"); })
+      .then(function () { render(); show("Вы вошли. Можно открывать панель: /admin/", "ok"); })
       .catch(function (err) { show("Не получилось: " + errText(err), "err"); });
   });
 
@@ -168,7 +218,7 @@
     if (!email) { show("Введите почту, чтобы прислать ссылку.", "err"); return; }
     show("Отправляем письмо…", "");
     netlifyIdentity.gotrue.requestPasswordRecovery(email)
-      .then(function () { show("Письмо отправлено на " + email + ". Откройте ссылку из него — придёте сюда.", "ok"); })
+      .then(function () { show("Письмо отправлено на " + email + ". Откройте ссылку из него — она откроет эту страницу.", "ok"); })
       .catch(function (err) { show("Не получилось: " + errText(err), "err"); });
   });
 
@@ -184,10 +234,11 @@
     show("Создаём…", "");
     netlifyIdentity.gotrue.signup(email, p1)
       .then(function () { return netlifyIdentity.refresh(); })
-      .then(function () { render(); show("Аккаунт создан. Можно входить в панель: /admin/", "ok"); })
+      .then(function () { render(); show("Аккаунт создан. Можно открывать панель: /admin/", "ok"); })
       .catch(function (err) { show("Не получилось: " + errText(err), "err"); });
   });
 
+  /* ---------- сохранение нового пароля ---------- */
   document.getElementById("passForm").addEventListener("submit", function (e) {
     e.preventDefault();
     var p1 = document.getElementById("p1").value;
@@ -195,24 +246,49 @@
     if (!p1) { show("Введите пароль.", "err"); return; }
     if (p1 !== p2) { show("Пароли не совпадают.", "err"); return; }
     if (p1.length < 8) { show("Пароль слишком короткий — минимум 8 символов.", "err"); return; }
-    var user = current();
-    var jwt = user && user.token && user.token.jwt ? user.token.jwt() : null;
-    if (!jwt) { show("Сеанс истёк. Войдите заново и повторите.", "err"); return; }
     show("Сохраняем…", "");
-    fetch("/.netlify/identity/user", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + jwt },
-      body: JSON.stringify({ password: p1, password_confirm: p2 })
-    })
-      .then(function (r) {
-        return r.json().then(function (body) {
-          if (!r.ok) throw new Error((body && (body.msg || body.error_description || body.error)) || ("код " + r.status));
-          return body;
+
+    /* Приглашение принимается вместе с паролем, остальное — обычной сменой пароля. */
+    var step;
+    if (link && link.type === "invite") {
+      step = netlifyIdentity.gotrue.acceptInvite(link.token, p1, true)
+        .then(function (user) { link = null; linkedUser = user; return null; });
+    } else {
+      var user = linkedUser || current();
+      if (!user || !user.token) { show("Сеанс истёк. Откройте ссылку из письма заново или войдите.", "err"); return; }
+      step = Promise.resolve(user.token.jwt()).then(function (jwt) {
+        return fetch("/.netlify/identity/user", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + jwt },
+          body: JSON.stringify({ password: p1, password_confirm: p2 })
+        }).then(function (r) {
+          return r.json().then(function (body) {
+            if (!r.ok) throw new Error((body && (body.msg || body.error_description || body.error)) || ("код " + r.status));
+            return body;
+          });
         });
+      });
+    }
+
+    step.then(function () {
+        show("Пароль сохранён! Теперь входите в панель: /admin/ — почта и этот пароль.", "ok");
+        who.textContent = "Пароль сохранён. Войдите в панель ниже.";
+        linkedUser = null;
+        loginForm.hidden = false;
+        passForm.hidden = true;
+        signupForm.hidden = true;
+        document.getElementById("p1").value = "";
+        document.getElementById("p2").value = "";
       })
-      .then(function () { show("Готово! Пароль сохранён. Теперь входите в панель: /admin/", "ok"); })
-      .catch(function (err) { show("Не получилось: " + (err.message || err), "err"); });
+      .catch(function (err) { show("Не получилось: " + errText(err), "err"); });
   });
+
+  /* Если регистрация закрыта — прячем кнопку создания аккаунта. */
+  try {
+    netlifyIdentity.gotrue.settings().then(function (s) {
+      if (s && s.disable_signup) document.getElementById("toSignup").hidden = true;
+    }).catch(function () {});
+  } catch (e) {}
 </script>
 </body>
 </html>

@@ -15,6 +15,16 @@
   логин и пароль выдаются отдельно.
   Настройки полей — в файле admin/config.yml.
 -->
+<script>
+  // Ссылки из писем Netlify (вход, сброс пароля, приглашение) ведём на страницу
+  // входа — там всегда открывается форма нового пароля.
+  (function () {
+    var hash = window.location.hash || "";
+    if (/(recovery|invite|confirmation|email_change)_token=/.test(hash)) {
+      window.location.replace("/admin/account.html" + hash);
+    }
+  })();
+</script>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script src="https://unpkg.com/decap-cms@^3.8.4/dist/decap-cms.js"></script>
 <script>
