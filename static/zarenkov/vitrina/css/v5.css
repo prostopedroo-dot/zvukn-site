@@ -1,0 +1,417 @@
+/* ============================================================
+   Вариант 5 — «Витрина»
+   Современная витрина пространства: бетонная графика, синий
+   акцент, bento-сетка, крупный гротеск.
+   ============================================================ */
+
+body.v5{
+  --ink:#f4f3ef;
+  --panel:#ffffff;
+  --text:#0f1115;
+  --muted:#6b6f76;
+  --muted-2:#8b9099;
+  --line:rgba(15,17,21,.12);
+  --line-2:rgba(15,17,21,.22);
+  --gold-ink:#2f4bff;
+  --gold-1:#2f4bff;
+  --gold-2:#8fa4ff;
+  --grad-gold:linear-gradient(100deg,#2f4bff,#5f76ff);
+  --teal:#2f4bff;
+  --teal-deep:#1f37d6;
+  --shadow:0 30px 70px -50px rgba(15,17,21,.4);
+  --shadow-sm:0 14px 34px -26px rgba(15,17,21,.3);
+  background-color:#f4f3ef;
+  background-image:
+    radial-gradient(52% 40% at 92% 0%,rgba(47,75,255,.10),transparent 62%),
+    radial-gradient(42% 32% at 0% 44%,rgba(255,205,130,.20),transparent 62%),
+    linear-gradient(rgba(15,17,21,.032) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(15,17,21,.032) 1px,transparent 1px),
+    linear-gradient(rgba(244,243,239,.88),rgba(244,243,239,.95)),
+    url("../assets/hero-city.jpg");
+  background-size:auto,auto,64px 64px,64px 64px,cover,cover;
+  background-position:center,center,0 0,0 0,center 62%,center 62%;
+  background-repeat:no-repeat,no-repeat,repeat,repeat,no-repeat,no-repeat;
+  background-attachment:scroll,scroll,scroll,scroll,fixed,fixed;
+  color:var(--text);
+}
+body.v5 ::selection{background:#2f4bff;color:#fff}
+
+/* ---------- type ---------- */
+body.v5 h1,
+body.v5 h2.big,
+body.v5 h3,
+body.v5 .ev-body h3,
+body.v5 .note h3,
+body.v5 .steps-list h3,
+body.v5 .form-copy h2{
+  font-family:var(--sans);
+  font-weight:800;
+  letter-spacing:-.045em;
+}
+body.v5 h2.big{font-size:clamp(34px,4.7vw,58px);line-height:1;text-transform:none}
+body.v5 h2.big em,
+body.v5 .form-copy h2 em{
+  font-family:var(--serif);font-style:italic;font-weight:600;
+  background:none;color:#2f4bff;-webkit-text-fill-color:#2f4bff;
+  -webkit-background-clip:border-box;background-clip:border-box;
+  letter-spacing:-.01em;
+}
+body.v5 .kick{color:#2f4bff;font-size:10.5px;letter-spacing:.18em}
+body.v5 .kick::before{background:#2f4bff;height:2px;width:22px;flex-basis:22px}
+body.v5 .lnk{color:#2f4bff;font-size:13px;font-weight:700}
+body.v5 .lnk:hover{color:#1f37d6}
+body.v5 .rail-hint{color:#8b9099;letter-spacing:.12em}
+body.v5 .sect-num{font-family:var(--sans);font-weight:800;letter-spacing:-.06em;-webkit-text-stroke-color:rgba(15,17,21,.14)}
+
+/* ---------- buttons ---------- */
+body.v5 .btn{
+  border-radius:999px;font-size:14px;font-weight:700;letter-spacing:0;text-transform:none;
+  padding:15px 26px;
+}
+body.v5 .btn--gold{background:#0f1115;color:#fff;box-shadow:none}
+body.v5 .btn--gold:hover{background:#2f4bff;color:#fff;filter:none;box-shadow:none}
+body.v5 .btn--ghost{border-color:rgba(15,17,21,.18);color:#0f1115;background:#fff}
+body.v5 .btn--ghost:hover{border-color:#2f4bff;color:#2f4bff;box-shadow:none}
+body.v5 .btn--sm{padding:10px 16px;font-size:11.5px}
+
+/* ---------- header: плавающая панель ---------- */
+body.v5 .top{
+  top:14px;left:14px;right:14px;height:72px;
+  border:1px solid rgba(15,17,21,.1);border-radius:18px;
+  background:#fff;box-shadow:0 14px 34px -26px rgba(15,17,21,.45);
+  padding:0;
+}
+body.v5 .top::before{display:none}
+body.v5 .top.scrolled{height:66px;background:#fff;border-color:rgba(15,17,21,.14)}
+body.v5 .top.scrolled::before{display:none}
+body.v5 .top-in{max-width:none;padding:0 18px}
+body.v5 .top .brand img{height:40px}
+body.v5 .top.scrolled .brand img{height:36px}
+body.v5 .nav{gap:26px}
+body.v5 .nav a{font-size:12px;letter-spacing:.01em;text-transform:none;font-weight:700;color:#6b6f76}
+body.v5 .nav a:hover{color:#0f1115}
+body.v5 .nav a.on{color:#0f1115}
+body.v5 .nav a.on::after{background:#2f4bff;height:2px;bottom:-8px;border-radius:2px}
+body.v5 .burger{background:#f4f3ef;border-color:rgba(15,17,21,.18);border-radius:12px}
+@media (max-width:1060px){
+  body.v5 .nav{background:#fff;border-color:rgba(15,17,21,.12);border-radius:18px 18px 0 0;box-shadow:0 -24px 60px -24px rgba(15,17,21,.45)}
+  body.v5 .nav a{border-bottom-color:rgba(15,17,21,.1);text-transform:none;letter-spacing:.01em}
+  body.v5 .nav a.on{color:#2f4bff}
+  body.v5 .nav-close{background:#f4f3ef;border-color:rgba(15,17,21,.18);color:#0f1115;border-radius:12px}
+  body.v5 .nav-close:hover{border-color:#2f4bff}
+}
+
+/* ---------- hero: bento ---------- */
+body.v5 .hero{
+  display:grid;grid-template-columns:1.12fr .88fr;grid-template-rows:auto auto;gap:16px;
+  min-height:auto;padding:122px 22px 64px;max-width:1180px;margin:0 auto;align-items:stretch;overflow:visible;
+}
+body.v5 .hero-in{
+  grid-column:1;grid-row:1;max-width:none;width:auto;margin:0;
+  background:#fff;border:1px solid rgba(15,17,21,.08);border-radius:28px;
+  padding:52px 48px 44px;display:flex;flex-direction:column;justify-content:center;
+  position:relative;z-index:2;
+}
+body.v5 .hero h1{
+  color:#0f1115;text-shadow:none;font-size:clamp(44px,5vw,68px);
+  line-height:.96;letter-spacing:-.055em;margin-top:22px;
+}
+body.v5 .hero h1 em{
+  font-family:var(--serif);font-style:italic;font-weight:600;letter-spacing:-.02em;
+  background:none;color:#2f4bff;-webkit-text-fill-color:#2f4bff;
+  -webkit-background-clip:border-box;background-clip:border-box;
+}
+body.v5 .hero .lede{color:#6b6f76;text-shadow:none;margin-top:22px;font-size:16px;max-width:470px}
+body.v5 .hero-meta{gap:8px;margin-top:26px}
+body.v5 .hero-meta span{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 12px;border-radius:999px;background:#f4f3ef;
+  color:#4b5058;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  text-shadow:none;
+}
+body.v5 .hero-meta span+span{border-left:0;padding-left:12px}
+body.v5 .hero-meta b{color:#2f4bff;font-size:10px;letter-spacing:.04em}
+body.v5 .hero-cta{margin-top:30px;gap:10px}
+body.v5 .hero-cta .btn{padding:14px 22px;font-size:13px}
+body.v5 .hero-bg{
+  position:relative;inset:auto;grid-column:2;grid-row:1 / span 2;
+  min-height:620px;border-radius:28px;background:url("../assets/hero-city.jpg") center/cover no-repeat;
+  animation:none;filter:saturate(.92) contrast(1.02);overflow:hidden;
+}
+body.v5 .hero-bg::before{
+  content:"10 ЭТАЖ · ПАНОРАМА";position:absolute;left:20px;top:20px;z-index:2;
+  padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.9);
+  font-size:9.5px;font-weight:800;letter-spacing:.14em;color:#0f1115;
+}
+body.v5 .hero-bg::after{
+  content:"Терраса · купола · закат";position:absolute;left:20px;bottom:20px;top:auto;right:auto;z-index:2;
+  padding:10px 15px;border-radius:999px;background:rgba(15,17,21,.78);
+  font-size:10.5px;font-weight:700;letter-spacing:.04em;color:#fff;
+}
+body.v5 .hero-note{
+  grid-column:1;grid-row:2;position:relative;right:auto;bottom:auto;width:auto;
+  background:#2f4bff;border:0;border-radius:24px;padding:26px 30px 24px;
+  box-shadow:none;transform:none;animation:none;display:flex;flex-direction:column;justify-content:center;
+}
+body.v5 .hero-note .pin{display:none}
+body.v5 .hero-note-tag{
+  align-self:flex-start;padding:6px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.26);
+  background:rgba(255,255,255,.14);color:#fff;font-size:9px;letter-spacing:.14em;
+}
+body.v5 .hero-note p{font-family:var(--sans);font-weight:700;font-size:20px;line-height:1.25;color:#fff;margin-top:12px;letter-spacing:-.02em}
+body.v5 .hero-note-meta{color:rgba(255,255,255,.72);border-top-color:rgba(255,255,255,.2);margin-top:12px;padding-top:10px}
+
+/* ---------- status: карточки ---------- */
+body.v5 .status{background:transparent;border:0;box-shadow:none;margin-top:0}
+body.v5 .status-in{
+  max-width:1180px;margin:0 auto;padding:0 22px;
+  display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:stretch;
+}
+body.v5 .status-cell{
+  background:#fff;border:1px solid rgba(15,17,21,.08);border-radius:16px;
+  padding:14px 18px;font-size:12px;color:#6b6f76;
+}
+body.v5 .status-cell+.status-cell{border-left:1px solid rgba(15,17,21,.08);margin:0;padding-left:18px}
+body.v5 .status-cell b{color:#0f1115}
+body.v5 .status-cell .teal{color:#2f4bff}
+body.v5 .status .dot{background:#2f4bff;box-shadow:0 0 0 4px rgba(47,75,255,.12)}
+body.v5 .status-in .btn{
+  margin:0;height:100%;border-radius:16px;background:#2f4bff;color:#fff;
+  justify-content:center;padding:0 22px;box-shadow:none;
+}
+body.v5 .status-in .btn:hover{background:#1f37d6}
+
+/* ---------- strip / ticker ---------- */
+body.v5 .strip-afisha{gap:12px;margin-top:16px}
+body.v5 .strip-afisha a{
+  border:1px solid rgba(15,17,21,.08);border-radius:16px;background:#fff;padding:15px 20px;
+}
+body.v5 .strip-afisha a:hover{border-color:#2f4bff;transform:translateY(-2px);box-shadow:none}
+body.v5 .strip-afisha .d{color:#2f4bff}
+body.v5 .strip-afisha .c{color:#2f4bff}
+body.v5 .ticker{
+  width:calc(100% - 44px);max-width:1180px;margin:16px auto 0;
+  border:0;border-radius:16px;background:#0f1115;padding:14px 0;
+}
+body.v5 .ticker-item{color:#8b9099;font-size:10.5px}
+body.v5 .ticker-item.t{color:#8fa4ff}
+body.v5 .ticker-item::after{color:rgba(143,164,255,.5)}
+
+/* ---------- events: bento ---------- */
+body.v5 #afisha{
+  padding-top:104px;
+  background:
+    radial-gradient(46% 54% at 88% 6%,rgba(47,75,255,.07),transparent 62%),
+    linear-gradient(180deg,rgba(244,243,239,.93) 0%,rgba(244,243,239,.84) 55%,rgba(244,243,239,.95) 100%),
+    url("../assets/hero-city.jpg") center 62%/cover no-repeat;
+}
+body.v5 .ev-grid{grid-template-columns:repeat(3,1fr);gap:16px;margin-top:42px}
+body.v5 .ev{
+  background:#fff;border:1px solid rgba(15,17,21,.08);border-radius:24px;overflow:hidden;
+  box-shadow:none;
+}
+body.v5 .ev:hover{transform:translateY(-4px);border-color:#2f4bff;box-shadow:0 24px 44px -34px rgba(15,17,21,.4)}
+body.v5 .ev:nth-child(1){
+  grid-column:1/-1;display:grid;grid-template-columns:1.15fr .85fr;align-items:stretch;
+}
+body.v5 .ev:nth-child(1) .ev-img{aspect-ratio:auto;min-height:340px;max-height:430px;height:100%;border-radius:18px;margin:8px}
+body.v5 .ev:nth-child(1) .ev-body{padding:34px 38px 34px 26px;display:flex;flex-direction:column;justify-content:center}
+body.v5 .ev:nth-child(1) .ev-body h3{font-size:clamp(28px,3.2vw,40px)}
+body.v5 .ev:nth-child(1) .ev-foot{margin-top:18px}
+body.v5 .ev-img{aspect-ratio:16/10;background:#e8e6e1;border-radius:18px;margin:8px 8px 0}
+body.v5 .ev-img img{filter:saturate(.9) contrast(1.02)}
+body.v5 .ev-body{padding:18px 20px 22px;gap:8px}
+body.v5 .ev-kick{color:#2f4bff;font-size:9.5px;letter-spacing:.16em}
+body.v5 .ev-body h3{font-size:21px;line-height:1.08;color:#0f1115}
+body.v5 .ev:hover .ev-body h3{color:#2f4bff}
+body.v5 .ev-body p{font-size:13px;color:#6b6f76}
+body.v5 .ev-date{
+  left:12px;top:12px;padding:8px 12px;border:0;border-radius:999px;
+  background:#2f4bff;color:#fff;font-size:9.5px;letter-spacing:.08em;backdrop-filter:none;
+}
+body.v5 .ev-meta span{font-size:10px;font-weight:700;letter-spacing:.03em;color:#8b9099;text-transform:uppercase}
+body.v5 .ev-meta b{color:#0f1115;font-size:9px}
+body.v5 .ev-foot{padding-top:12px}
+body.v5 .ev-time{font-size:9px;color:#8b9099}
+body.v5 .ev .btn--gold{background:#0f1115;color:#fff;box-shadow:none}
+body.v5 .ev .btn--gold:hover{background:#2f4bff;box-shadow:none}
+
+/* ---------- board ---------- */
+body.v5 .paper{
+  background:#ece9e2;background-image:none;color:#0f1115;
+  border-top:1px solid rgba(15,17,21,.08);border-bottom:1px solid rgba(15,17,21,.08);
+}
+body.v5 .paper .kick{color:#2f4bff}
+body.v5 .paper h2.big{color:#0f1115}
+body.v5 .paper h2.big em{color:#2f4bff;-webkit-text-fill-color:#2f4bff}
+body.v5 .paper .lnk{color:#2f4bff}
+body.v5 .paper .lnk:hover{color:#1f37d6}
+body.v5 .paper .sect-num{-webkit-text-stroke-color:rgba(15,17,21,.16)}
+body.v5 .board-filters{gap:8px;margin-top:26px}
+body.v5 .chip{
+  border:1px solid rgba(15,17,21,.14);background:#fff;color:#0f1115;
+  border-radius:999px;padding:9px 15px;font-size:12px;
+}
+body.v5 .chip span{color:#8b9099}
+body.v5 .chip:hover{border-color:#2f4bff;transform:none}
+body.v5 .chip.is-on{background:#0f1115;color:#fff;border-color:#0f1115}
+body.v5 .chip.is-on span{color:rgba(255,255,255,.6)}
+body.v5 .notes{grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+body.v5 .note{
+  border:0;border-radius:20px;box-shadow:none;padding:24px 22px 20px;min-height:240px;
+  transform:none !important;color:#0f1115;
+}
+body.v5 .note:nth-child(1){background:#fff6df}
+body.v5 .note:nth-child(2){background:#eef1ff}
+body.v5 .note:nth-child(3){background:#eaf6ef}
+body.v5 .note:nth-child(4){background:#fff0ed}
+body.v5 .note:nth-child(5){background:#f1ecff}
+body.v5 .note:nth-child(6){background:#eef7f8}
+body.v5 .note:hover{transform:translateY(-3px) !important;box-shadow:0 20px 34px -28px rgba(15,17,21,.35)}
+body.v5 .note .pin{display:none}
+body.v5 .note-top{margin-bottom:12px}
+body.v5 .note-top time{color:#8b9099;font-size:9px}
+body.v5 .note[data-tag] .note-tag{
+  background:rgba(15,17,21,.06);border:0;border-radius:999px;color:#0f1115;
+  font-size:9px;letter-spacing:.1em;
+}
+body.v5 .note[data-tag="Аренда"] .note-tag{background:#2f4bff;color:#fff}
+body.v5 .note h3{font-size:20px;line-height:1.15;color:#0f1115}
+body.v5 .note p{font-size:13px;color:#5f646c}
+body.v5 .note-foot{border-top-color:rgba(15,17,21,.1);padding-top:14px}
+body.v5 .note-author{color:#5f646c;font-size:9.5px}
+body.v5 .note-link{color:#2f4bff;font-size:10px;letter-spacing:.04em;text-transform:uppercase}
+body.v5 .note-link:hover{color:#1f37d6}
+
+/* ---------- rent: тёмная витрина ---------- */
+body.v5 #rent{background:transparent;padding-top:100px}
+body.v5 .how-grid{
+  display:grid;grid-template-columns:1.02fr .98fr;gap:0;align-items:stretch;
+  background:
+    radial-gradient(60% 90% at 100% 0%,rgba(47,75,255,.28),transparent 62%),
+    radial-gradient(40% 60% at 0% 100%,rgba(255,205,130,.08),transparent 62%),
+    #0f1115;
+  border-radius:28px;padding:14px;color:#fff;
+}
+body.v5 .how-media{position:relative;min-height:540px}
+body.v5 .how-media img{width:100%;height:100%;object-fit:cover;border-radius:18px;box-shadow:none;filter:saturate(.9) contrast(1.02)}
+body.v5 .how-note{
+  left:18px;bottom:18px;width:220px;padding:16px 18px;background:#fff;
+  border:0;border-radius:16px;box-shadow:0 18px 34px -22px rgba(0,0,0,.5);
+  transform:none;color:#0f1115;
+}
+body.v5 .how-note .pin{display:none}
+body.v5 .how-note b{font-family:var(--sans);font-weight:800;font-size:15px;color:#0f1115}
+body.v5 .how-note span:last-child{color:#6b6f76;font-size:9px}
+body.v5 .how-copy{padding:38px 34px;display:flex;flex-direction:column;justify-content:center}
+body.v5 .how-copy .kick{color:#8fa4ff}
+body.v5 .how-copy .kick::before{background:#8fa4ff}
+body.v5 .how-copy h2{color:#fff;font-size:clamp(32px,3.8vw,50px)}
+body.v5 .how-copy h2 em{color:#8fa4ff;-webkit-text-fill-color:#8fa4ff}
+body.v5 .how-copy .lede{color:#a8adb6;margin-top:16px;font-size:15px}
+body.v5 .steps-list{border-top-color:rgba(255,255,255,.14);margin-top:26px}
+body.v5 .steps-list li{border-bottom-color:rgba(255,255,255,.14);padding:17px 0;grid-template-columns:44px 1fr}
+body.v5 .step-num{background:none;color:#8fa4ff;-webkit-text-fill-color:#8fa4ff;font-family:var(--sans);font-weight:800;font-size:24px}
+body.v5 .steps-list h3{color:#fff;font-size:15px}
+body.v5 .steps-list p{color:#a8adb6;font-size:12.5px}
+body.v5 .how-copy .btn{margin-top:26px;align-self:flex-start;background:#2f4bff;color:#fff}
+body.v5 .how-copy .btn:hover{background:#1f37d6}
+
+/* ---------- form ---------- */
+body.v5 .form-band{
+  background:
+    radial-gradient(50% 60% at 90% 8%,rgba(47,75,255,.08),transparent 62%),
+    radial-gradient(40% 50% at 4% 96%,rgba(255,205,130,.12),transparent 62%),
+    #f4f3ef;
+  color:#0f1115;padding:104px 0;
+}
+body.v5 .form-band::before{display:none}
+body.v5 .form-grid{grid-template-columns:.9fr 1.1fr;gap:48px}
+body.v5 .form-copy .kick{color:#2f4bff}
+body.v5 .form-copy h2{color:#0f1115;text-transform:none;font-size:clamp(32px,4.2vw,52px)}
+body.v5 .form-copy h2 em{color:#2f4bff;-webkit-text-fill-color:#2f4bff}
+body.v5 .form-copy .lede{color:#6b6f76}
+body.v5 .contact-list{border-top-color:rgba(15,17,21,.12)}
+body.v5 .contact-list li{border-bottom-color:rgba(15,17,21,.12)}
+body.v5 .contact-list span{color:#2f4bff}
+body.v5 .contact-list a,body.v5 .contact-list p{color:#0f1115}
+body.v5 .contact-list a:hover{color:#2f4bff}
+body.v5 .form-quote{background:#fff;color:#0f1115;border-left:3px solid #2f4bff;border-image:none}
+body.v5 .form-quote cite{color:#2f4bff}
+body.v5 .form-card{
+  background:#0f1115;border:0;border-radius:24px;box-shadow:none;
+  backdrop-filter:none;padding:30px;
+}
+body.v5 .field label{color:#9aa0aa}
+body.v5 .field input,body.v5 .field select,body.v5 .field textarea{
+  background-color:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:12px;color:#fff;
+}
+body.v5 .field input::placeholder,body.v5 .field textarea::placeholder{color:#7f848d}
+body.v5 .field input:focus,body.v5 .field select:focus,body.v5 .field textarea:focus{
+  border-color:#8fa4ff;background-color:rgba(255,255,255,.09);
+}
+body.v5 .field select{background-image:linear-gradient(45deg,transparent 50%,#9aa0aa 50%),linear-gradient(135deg,#9aa0aa 50%,transparent 50%)}
+body.v5 .field select option{background:#15171c;color:#fff}
+body.v5 .check{color:#a8adb6}
+body.v5 .form-note{color:#8b9099}
+body.v5 .form-ok{background:rgba(120,255,180,.1);border:1px solid rgba(120,255,180,.3);color:#a7f3c9}
+body.v5 .form .btn--gold{background:#2f4bff;color:#fff;box-shadow:none}
+body.v5 .form .btn--gold:hover{background:#1f37d6}
+
+/* ---------- footer ---------- */
+body.v5 .foot{
+  background:
+    radial-gradient(62% 80% at 50% 100%,rgba(47,75,255,.16),transparent 62%),
+    #0f1115;
+  color:#fff;
+}
+body.v5 .foot .foot-logo--dark{display:none}
+body.v5 .foot .foot-logo--light{display:block;height:60px}
+body.v5 .foot-about,body.v5 .foot-col a,body.v5 .foot-col p,body.v5 .foot-bottom{color:#9aa0aa}
+body.v5 .foot-col a:hover,body.v5 .foot-bottom a:hover{color:#fff}
+body.v5 .foot h4{color:#8fa4ff}
+body.v5 .soc a{color:#fff;border-color:rgba(255,255,255,.2)}
+body.v5 .soc a:hover{background:#2f4bff;color:#fff;border-color:#2f4bff}
+body.v5 .foot-bottom{border-top-color:rgba(255,255,255,.14)}
+body.v5 .foot-word{-webkit-text-stroke-color:rgba(255,255,255,.18);border-top-color:rgba(255,255,255,.14)}
+body.v5 .foot-word small{-webkit-text-stroke-color:rgba(255,255,255,.2)}
+body.v5 .foot-word span{-webkit-text-stroke-color:rgba(255,255,255,.32)}
+body.v5 .float-cta{
+  background:#2f4bff;color:#fff;box-shadow:0 20px 42px -16px rgba(47,75,255,.7);
+  font-size:13px;
+}
+body.v5 .float-cta:hover{filter:brightness(1.06);transform:translateY(-2px)}
+
+/* ---------- адаптив ---------- */
+@media (max-width:1060px){
+  body.v5 .hero{grid-template-columns:1fr;padding:108px 18px 48px}
+  body.v5 .hero-in{grid-column:1;grid-row:1;padding:40px 32px}
+  body.v5 .hero-bg{grid-column:1;grid-row:2;min-height:430px}
+  body.v5 .hero-note{grid-column:1;grid-row:3;padding:24px 28px}
+  body.v5 .top{top:10px;left:10px;right:10px}
+  body.v5 .ev-grid{grid-template-columns:1fr 1fr}
+  body.v5 .ev:nth-child(1){grid-column:1/-1;grid-template-columns:1fr 1fr}
+  body.v5 .ev:nth-child(1) .ev-img{min-height:280px}
+  body.v5 .how-grid{grid-template-columns:1fr}
+  body.v5 .how-media{min-height:380px}
+  body.v5 .how-copy{padding:30px 26px 34px}
+  body.v5 .form-grid{grid-template-columns:1fr;gap:40px}
+  body.v5 .status-in{grid-template-columns:1fr;padding:0 18px}
+  body.v5 .status-cell+.status-cell{border-left:1px solid rgba(15,17,21,.08)}
+  body.v5 .status-in .btn{height:auto;padding:14px 22px}
+}
+@media (max-width:700px){
+  body.v5 .hero{padding:94px 14px 40px}
+  body.v5 .hero-in{padding:32px 22px 30px;border-radius:22px}
+  body.v5 .hero h1{font-size:clamp(38px,10.5vw,52px)}
+  body.v5 .hero-bg{min-height:340px;border-radius:22px}
+  body.v5 .hero-note{border-radius:22px;padding:22px 24px}
+  body.v5 .ev-grid{grid-template-columns:1fr}
+  body.v5 .ev:nth-child(1){grid-column:auto;grid-template-columns:1fr}
+  body.v5 .ev:nth-child(1) .ev-img{min-height:220px;aspect-ratio:16/9}
+  body.v5 .ev:nth-child(1) .ev-body{padding:18px 20px 22px}
+  body.v5 .ev:nth-child(1) .ev-body h3{font-size:24px}
+  body.v5 .notes{grid-template-columns:1fr}
+  body.v5 .note{min-height:0}
+  body.v5 .ticker{width:calc(100% - 28px)}
+}
