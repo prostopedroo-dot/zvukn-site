@@ -139,7 +139,7 @@ today:
       href: /kontakty
       style: btn--ghost
   facts:
-    - value: <span data-count="4">0</span>
+    - value: "4"
       label: года на сцене и в студии
     - value: "2"
       label: "направления: эстрада и джаз"
