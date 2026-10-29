@@ -125,6 +125,29 @@
     try { return netlifyIdentity.currentUser(); } catch (e) { return null; }
   }
 
+  /* Виджет Netlify готов не сразу: сначала он узнаёт настройки сайта.
+     Ждём этого момента, иначе вызовы ниже падают с ошибкой. */
+  var apiReady = !!(window.netlifyIdentity && netlifyIdentity.gotrue);
+  var waiting = [];
+  function whenReady(fn) {
+    if (apiReady || (window.netlifyIdentity && netlifyIdentity.gotrue)) {
+      apiReady = true;
+      fn();
+      return;
+    }
+    waiting.push(fn);
+  }
+  function fireReady() {
+    apiReady = true;
+    var q = waiting.slice();
+    waiting.length = 0;
+    q.forEach(function (fn) { fn(); });
+  }
+  if (window.netlifyIdentity) {
+    netlifyIdentity.on("init", function () { fireReady(); });
+    if (netlifyIdentity.gotrue) fireReady();
+  }
+
   function render(user) {
     user = user || linkedUser || current();
     if (user && user.email) {
@@ -141,12 +164,7 @@
   }
 
   /* ---------- вход по ссылке из письма ---------- */
-  function boot() {
-    if (!link) {
-      netlifyIdentity.on("init", function () { render(); });
-      return;
-    }
-
+  function openLink() {
     if (link.type === "recovery") {
       who.textContent = "Открываем ссылку из письма…";
       show("Проверяем ссылку…", "");
@@ -187,6 +205,15 @@
         show("Ссылка не сработала: " + errText(err), "err");
       });
   }
+
+  function boot() {
+    if (!link) {
+      netlifyIdentity.on("init", function (user) { render(user); });
+      if (netlifyIdentity && netlifyIdentity.gotrue) render();
+      return;
+    }
+    whenReady(openLink);
+  }
   boot();
 
   /* ---------- кнопки на форме входа ---------- */
@@ -207,19 +234,23 @@
     var password = document.getElementById("pass").value;
     if (!email || !password) { show("Заполните почту и пароль.", "err"); return; }
     show("Проверяем…", "");
-    netlifyIdentity.gotrue.login(email, password, true)
-      .then(function () { return netlifyIdentity.refresh(); })
-      .then(function () { render(); show("Вы вошли. Можно открывать панель: /admin/", "ok"); })
-      .catch(function (err) { show("Не получилось: " + errText(err), "err"); });
+    whenReady(function () {
+      netlifyIdentity.gotrue.login(email, password, true)
+        .then(function () { return netlifyIdentity.refresh(); })
+        .then(function () { render(); show("Вы вошли. Можно открывать панель: /admin/", "ok"); })
+        .catch(function (err) { show("Не получилось: " + errText(err), "err"); });
+    });
   });
 
   document.getElementById("forgot").addEventListener("click", function () {
     var email = document.getElementById("email").value.trim();
     if (!email) { show("Введите почту, чтобы прислать ссылку.", "err"); return; }
     show("Отправляем письмо…", "");
-    netlifyIdentity.gotrue.requestPasswordRecovery(email)
-      .then(function () { show("Письмо отправлено на " + email + ". Откройте ссылку из него — она откроет эту страницу.", "ok"); })
-      .catch(function (err) { show("Не получилось: " + errText(err), "err"); });
+    whenReady(function () {
+      netlifyIdentity.gotrue.requestPasswordRecovery(email)
+        .then(function () { show("Письмо отправлено на " + email + ". Откройте ссылку из него — она откроет эту страницу.", "ok"); })
+        .catch(function (err) { show("Не получилось: " + errText(err), "err"); });
+    });
   });
 
   document.getElementById("signupForm").addEventListener("submit", function (e) {
@@ -232,10 +263,12 @@
     if (p1 !== p2) { show("Пароли не совпадают.", "err"); return; }
     if (p1.length < 8) { show("Пароль слишком короткий — минимум 8 символов.", "err"); return; }
     show("Создаём…", "");
-    netlifyIdentity.gotrue.signup(email, p1)
-      .then(function () { return netlifyIdentity.refresh(); })
-      .then(function () { render(); show("Аккаунт создан. Можно открывать панель: /admin/", "ok"); })
-      .catch(function (err) { show("Не получилось: " + errText(err), "err"); });
+    whenReady(function () {
+      netlifyIdentity.gotrue.signup(email, p1)
+        .then(function () { return netlifyIdentity.refresh(); })
+        .then(function () { render(); show("Аккаунт создан. Можно открывать панель: /admin/", "ok"); })
+        .catch(function (err) { show("Не получилось: " + errText(err), "err"); });
+    });
   });
 
   /* ---------- сохранение нового пароля ---------- */
@@ -284,11 +317,11 @@
   });
 
   /* Если регистрация закрыта — прячем кнопку создания аккаунта. */
-  try {
+  whenReady(function () {
     netlifyIdentity.gotrue.settings().then(function (s) {
       if (s && s.disable_signup) document.getElementById("toSignup").hidden = true;
     }).catch(function () {});
-  } catch (e) {}
+  });
 </script>
 </body>
 </html>
