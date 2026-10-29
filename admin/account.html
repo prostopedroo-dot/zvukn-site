@@ -39,6 +39,7 @@
 <div class="box">
   <h1>Вход для редактора</h1>
   <div class="who" id="who">Проверяем…</div>
+  <button type="button" class="ghost" id="logout" hidden>Выйти (сменить аккаунт)</button>
 
   <!-- Вход -->
   <form id="loginForm" hidden>
@@ -161,6 +162,7 @@
       passForm.hidden = true;
       signupForm.hidden = true;
     }
+    document.getElementById("logout").hidden = !(user && user.email);
   }
 
   /* ---------- вход по ссылке из письма ---------- */
@@ -215,6 +217,14 @@
     whenReady(openLink);
   }
   boot();
+
+  document.getElementById("logout").addEventListener("click", function () {
+    show("Выходим…", "");
+    try { netlifyIdentity.logout(); } catch (e) {}
+    try { localStorage.removeItem("gotrue.user"); } catch (e) {}
+    try { document.cookie = "nf_jwt=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"; } catch (e) {}
+    setTimeout(function () { window.location.href = "/admin/account.html"; }, 600);
+  });
 
   /* ---------- кнопки на форме входа ---------- */
   document.getElementById("toSignup").addEventListener("click", function () {
