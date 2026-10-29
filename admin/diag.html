@@ -16,6 +16,7 @@
 </head>
 <body>
 <h1>Диагностика входа</h1>
+<p><button id="go" style="padding:10px 18px;border-radius:999px;border:0;background:#f3ece3;color:#14100d;font-weight:600;cursor:pointer">Войти</button></p>
 <pre id="out">Считаем…</pre>
 <p><a href="/admin/">← в панель</a></p>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
@@ -73,6 +74,11 @@
 
   netlifyIdentity.on("init", start);
   if (netlifyIdentity.gotrue) start();
+  document.getElementById("go").addEventListener("click", function () {
+    out.textContent = "";
+    start();
+    netlifyIdentity.open("login");
+  });
 </script>
 </body>
 </html>
