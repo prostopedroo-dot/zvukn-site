@@ -6,6 +6,18 @@
 <title>Панель управления сайтом — Звук N</title>
 <link rel="icon" href="../assets/img/favicon.png" type="image/png">
 <meta name="robots" content="noindex">
+<style>
+  /* Кнопка выхода в панели — внизу справа, чтобы не мешать «Опубликовать» */
+  #zvukn-logout {
+    position: fixed; right: 18px; bottom: 18px; z-index: 99999;
+    padding: 10px 18px; border-radius: 999px;
+    border: 1px solid rgba(0,0,0,.14);
+    background: rgba(255,255,255,.94); color: #333;
+    font: 500 13px/1 -apple-system, "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,.12);
+  }
+  #zvukn-logout:hover { background: #fff; }
+</style>
 </head>
 <body>
 <!--
@@ -38,6 +50,35 @@
       }
     });
   }
+</script>
+<script>
+  // Кнопка «Выйти» прямо в панели: видна, только когда кто-то вошёл.
+  (function () {
+    if (!window.netlifyIdentity) return;
+    var btn = document.createElement("button");
+    btn.id = "zvukn-logout";
+    btn.type = "button";
+    btn.textContent = "Выйти";
+    btn.title = "Выйти и войти другим аккаунтом";
+    btn.style.display = "none";
+    btn.addEventListener("click", function () {
+      btn.textContent = "Выходим…";
+      try { netlifyIdentity.logout(); } catch (e) {}
+      try { localStorage.removeItem("gotrue.user"); } catch (e) {}
+      setTimeout(function () { window.location.href = "/admin/account.html"; }, 600);
+    });
+    function sync() {
+      var u = null;
+      try { u = netlifyIdentity.currentUser(); } catch (e) {}
+      btn.style.display = u ? "block" : "none";
+      btn.textContent = "Выйти";
+    }
+    netlifyIdentity.on("init", sync);
+    netlifyIdentity.on("login", sync);
+    netlifyIdentity.on("logout", sync);
+    document.body.appendChild(btn);
+    sync();
+  })();
 </script>
 </body>
 </html>
